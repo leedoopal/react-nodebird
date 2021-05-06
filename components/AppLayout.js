@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 import { Menu, Input, Row, Col } from 'antd';
 
+import UserProfile from "./UserProfile";
+import SignedForm from "./SignedForm";
+
 const AppLayout = ({ children }) => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -29,7 +34,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          왼쪽 메뉴
+          {isSignedIn ? <UserProfile /> : <SignedForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
