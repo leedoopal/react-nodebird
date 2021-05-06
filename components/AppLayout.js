@@ -8,7 +8,9 @@ import styled from 'styled-components';
 import UserProfile from "./UserProfile";
 import SignedForm from "./SignedForm";
 
-const SearchInput = styled(Input.Search)`vertical-align: middle`;
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle
+`;
 
 const AppLayout = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -45,7 +47,7 @@ const AppLayout = ({ children }) => {
         </Col>
         <Col xs={24} md={6}>
           <a href="http://github.ebaykorea.com/seongwoo" target="_blank"
-             rel="noreferrer">
+             rel="noreferrer noopener">
             Made by seongwoo
           </a>
         </Col>

@@ -1,25 +1,17 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import PropTypes from "prop-types";
 
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
+import useInput from "../hooks/useInput";
 
 const ButtonWrapper = styled.div`margin-top: 10px`;
 const FormWrapper = styled(Form)`padding: 10px`;
 
 const SignedForm = ({ setIsSignedIn }) => {
-  const [id, setID] = useState("");
-  const [password, setPassword] = useState("");
-
-  // component에 props로 넘기는 함수는 useCallback을 사용하자
-  const onChangeID = useCallback((e) => {
-    setID(e.target.value)
-  }, []);
-
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value)
-  }, []);
+  const [id, onChangeID] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
     console.log(id, password);
@@ -53,7 +45,7 @@ const SignedForm = ({ setIsSignedIn }) => {
 }
 
 SignedForm.propTypes = {
-  setIsSignedIn: PropTypes.elementType.isRequired
+  setIsSignedIn: PropTypes.func.isRequired
 }
 
 export default SignedForm;
