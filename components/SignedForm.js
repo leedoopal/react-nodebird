@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
+import PropTypes from "prop-types";
 
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 
 const ButtonWrapper = styled.div`margin-top: 10px`;
+const FormWrapper = styled(Form)`padding: 10px`;
 
-const SignedForm = () => {
+const SignedForm = ({ setIsSignedIn }) => {
   const [id, setID] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,8 +21,13 @@ const SignedForm = () => {
     setPassword(e.target.value)
   }, []);
 
+  const onSubmitForm = useCallback(() => {
+    console.log(id, password);
+    setIsSignedIn(true);
+  }, [id, password]);
+
   return (
-    <Form>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-id">아이디</label>
         <br />
@@ -41,8 +48,12 @@ const SignedForm = () => {
           </a>
         </Link>
       </ButtonWrapper>
-    </Form>
+    </FormWrapper>
   )
+}
+
+SignedForm.propTypes = {
+  setIsSignedIn: PropTypes.elementType.isRequired
 }
 
 export default SignedForm;
