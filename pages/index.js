@@ -1,11 +1,15 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
+
 import AppLayout from "../components/AppLayout";
 
 const Home = () => {
   return (
-    <AppLayout>
-      <div>Hello Next!</div>
-    </AppLayout>
+    <RecoilRoot>
+      <AppLayout>
+        <div>Hello Next!</div>
+      </AppLayout>
+    </RecoilRoot>
   )
 }
 
