@@ -1,17 +1,20 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import PropTypes from "prop-types";
+import {useSetRecoilState} from 'recoil';
 
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
+
 import useInput from "../hooks/useInput";
+import { userIsSignedIn } from "../stores/user";
 
 const ButtonWrapper = styled.div`margin-top: 10px`;
 const FormWrapper = styled(Form)`padding: 10px`;
 
-const SignedForm = ({ setIsSignedIn }) => {
+const SignedForm = () => {
   const [id, onChangeID] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const setIsSignedIn = useSetRecoilState(userIsSignedIn);
 
   const onSubmitForm = useCallback(() => {
     console.log(id, password);
@@ -42,10 +45,6 @@ const SignedForm = ({ setIsSignedIn }) => {
       </ButtonWrapper>
     </FormWrapper>
   )
-}
-
-SignedForm.propTypes = {
-  setIsSignedIn: PropTypes.func.isRequired
 }
 
 export default SignedForm;

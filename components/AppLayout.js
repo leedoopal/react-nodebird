@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
+import PropTypes from 'prop-types';
 
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 
 import UserProfile from "./UserProfile";
 import SignedForm from "./SignedForm";
+import { userIsSignedIn } from "../stores/user";
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle
 `;
 
 const AppLayout = ({ children }) => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const isSignedIn = useRecoilValue(userIsSignedIn);
 
   return (
     <div>
@@ -39,8 +41,8 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isSignedIn ? <UserProfile setIsSignedIn={setIsSignedIn} /> :
-            <SignedForm setIsSignedIn={setIsSignedIn} />}
+          {isSignedIn ? <UserProfile /> :
+            <SignedForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

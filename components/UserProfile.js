@@ -1,9 +1,12 @@
 import React, { useCallback } from 'react';
-import PropTypes from "prop-types";
 
 import { Avatar, Card, Button } from 'antd';
+import { useSetRecoilState } from "recoil";
+import { userIsSignedIn } from "../stores/user";
 
-const UserProfile = ({ setIsSignedIn }) => {
+const UserProfile = () => {
+  const setIsSignedIn = useSetRecoilState(userIsSignedIn);
+
   const onSignOut = useCallback(() => {
     setIsSignedIn(false);
   }, []);
@@ -18,10 +21,6 @@ const UserProfile = ({ setIsSignedIn }) => {
       <Button onClick={onSignOut}>로그아웃</Button>
     </Card>
   )
-}
-
-UserProfile.propTypes = {
-  setIsSignedIn: PropTypes.elementType.isRequired
 }
 
 export default UserProfile;
