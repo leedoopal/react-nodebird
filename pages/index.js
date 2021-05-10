@@ -10,6 +10,7 @@ import { getMainPosts } from "../stores/post";
 
 const Home = () => {
   const isSignedIn = useRecoilValue(userIsSignedIn);
+  console.log('isSignedIn: ', isSignedIn);
   const mainPosts = useRecoilValue(getMainPosts);
 
   return (

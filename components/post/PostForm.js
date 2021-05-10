@@ -13,11 +13,16 @@ const PostForm = () => {
   const onSubmit = useCallback(() => {
     const newPost = {
       id: 2,
-      text,
+      content: text,
+      user: {
+        id: 'cindy',
+        nickname: 'cindy'
+      }
     }
+    console.log(newPost);
     setMainPosts(newPost);
     setText('');
-  }, []);
+  }, [text]);
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current])

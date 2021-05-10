@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import {useSetRecoilState} from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 
 import useInput from "../hooks/useInput";
-import { userIsSignedIn } from "../stores/user";
+import { userIsSignedIn, userMe } from "../stores/user";
 
 const ButtonWrapper = styled.div`margin-top: 10px`;
 const FormWrapper = styled(Form)`padding: 10px`;
@@ -15,10 +15,12 @@ const SignedForm = () => {
   const [id, onChangeID] = useInput('');
   const [password, onChangePassword] = useInput('');
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
+  const setUpdateUserMe = useSetRecoilState(userMe);
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
+    console.log('로그인!');
     setIsSignedIn(true);
+    setUpdateUserMe({ id, password });
   }, [id, password]);
 
   return (
