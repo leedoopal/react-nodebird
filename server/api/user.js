@@ -1,12 +1,13 @@
-const userSignIn = async (req) => {
+const userSignInAction = async (req) => {
   return await fetch("/api/signIn", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({}),
+    body: JSON.stringify({ req }),
   })
     .then((res) => {
+      console.log("signIn: ", res);
       return res.json().catch(() => null);
     })
     .catch((err) => {
@@ -14,7 +15,7 @@ const userSignIn = async (req) => {
     });
 };
 
-const userSignOut = async (req) => {
+const userSignOutAction = async (req) => {
   return await fetch("/api/signOut", {
     method: "PUT",
     headers: {
@@ -30,4 +31,4 @@ const userSignOut = async (req) => {
     });
 };
 
-export default { userSignIn, userSignOut };
+export default { userSignInAction, userSignOutAction };

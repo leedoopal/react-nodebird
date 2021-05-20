@@ -1,26 +1,29 @@
-import React, { useCallback } from 'react';
-import Link from 'next/link';
-import { useSetRecoilState } from 'recoil';
+import React, { useCallback } from "react";
+import Link from "next/link";
+import { useSetRecoilState } from "recoil";
 
-import { Form, Input, Button } from 'antd';
-import styled from 'styled-components';
+import { Form, Input, Button } from "antd";
+import styled from "styled-components";
 
 import useInput from "../hooks/useInput";
-import { userIsSignedIn, userMe } from "../stores/user";
+import { userIsSignedIn } from "../stores/user";
+import { userSignInAction } from "../server/api/user";
 
-const ButtonWrapper = styled.div`margin-top: 10px`;
-const FormWrapper = styled(Form)`padding: 10px`;
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`;
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
 
 const SignedForm = () => {
-  const [id, onChangeID] = useInput('');
-  const [password, onChangePassword] = useInput('');
+  const [id, onChangeID] = useInput("");
+  const [password, onChangePassword] = useInput("");
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
-  const setUpdateUserMe = useSetRecoilState(userMe);
 
   const onSubmitForm = useCallback(() => {
-    console.log('로그인!');
     setIsSignedIn(true);
-    setUpdateUserMe({ id, password });
+    userSignInAction({ id, password });
   }, [id, password]);
 
   return (
@@ -33,12 +36,18 @@ const SignedForm = () => {
       <div>
         <label htmlFor="user-password">비밀번호</label>
         <br />
-        <Input name="user-password" type="password" value={password}
-               onChange={onChangePassword}
-               required />
+        <Input
+          name="user-password"
+          type="password"
+          value={password}
+          onChange={onChangePassword}
+          required
+        />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
+        <Button type="primary" htmlType="submit" loading={setIsSignedIn}>
+          로그인
+        </Button>
         <Link href="signup">
           <a>
             <Button>회원가입</Button>
@@ -46,7 +55,7 @@ const SignedForm = () => {
         </Link>
       </ButtonWrapper>
     </FormWrapper>
-  )
-}
+  );
+};
 
 export default SignedForm;
