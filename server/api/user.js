@@ -15,7 +15,7 @@ const userSignInAction = async (req) => {
     });
 };
 
-const userSignOutAction = async (req) => {
+const userSignOutAction = async () => {
   return await fetch("/api/signOut", {
     method: "PUT",
     headers: {

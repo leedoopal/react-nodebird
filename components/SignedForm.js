@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
 import Link from "next/link";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 
 import useInput from "../hooks/useInput";
-import { userIsSignedIn } from "../stores/user";
+import { userIsSignedIn, userMe } from "../stores/user";
 import { userSignInAction } from "../server/api/user";
 
 const ButtonWrapper = styled.div`
@@ -20,10 +20,13 @@ const SignedForm = () => {
   const [id, onChangeID] = useInput("");
   const [password, onChangePassword] = useInput("");
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
+  const isSignedIn = useRecoilValue(userIsSignedIn);
+  const setUserMe = useSetRecoilState(userMe);
 
-  const onSubmitForm = useCallback(() => {
+  const onSubmitForm = useCallback(async () => {
     setIsSignedIn(true);
-    userSignInAction({ id, password });
+    // const data = await userSignInAction({ id, password });
+    setUserMe({ id: "cindy", nickname: "cindy" });
   }, [id, password]);
 
   return (
@@ -45,7 +48,7 @@ const SignedForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={setIsSignedIn}>
+        <Button type="primary" htmlType="submit" loading={isSignedIn}>
           로그인
         </Button>
         <Link href="signup">
