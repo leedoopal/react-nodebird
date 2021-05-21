@@ -17,7 +17,7 @@ const FormWrapper = styled(Form)`
 `;
 
 const SignedForm = () => {
-  const [id, onChangeID] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
   const isSignedIn = useRecoilValue(userIsSignedIn);
@@ -25,16 +25,20 @@ const SignedForm = () => {
 
   const onSubmitForm = useCallback(async () => {
     setIsSignedIn(true);
-    // const data = await userSignInAction({ id, password });
-    setUserMe({ id: "cindy", nickname: "cindy" });
-  }, [id, password]);
+    // const data = await userSignInAction({ email, password });
+    setUserMe({
+      email: "cindy",
+      nickname: "cindy",
+      posts: [{ id: 0 }, { id: 1 }, { id: 2 }],
+    });
+  }, [email, password]);
 
   return (
     <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">아이디</label>
+        <label htmlFor="user-id">이메일</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeID} required />
+        <Input name="user-id" value={email} onChange={onChangeEmail} required />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>

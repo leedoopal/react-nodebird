@@ -1,5 +1,5 @@
 const addPost = async (req) => {
-  return await fetch("/api/post", {
+  return await fetch(`/api/post/${req.postID}/comment`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

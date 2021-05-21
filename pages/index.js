@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useRecoilValue } from "recoil";
 
 import AppLayout from "../components/AppLayout";
@@ -6,19 +6,20 @@ import PostForm from "../components/post/PostForm";
 import PostCard from "../components/post/PostCard";
 
 import { userIsSignedIn } from "../stores/user";
-import { getMainPosts } from "../stores/post";
+import { updateMainPosts } from "../stores/post";
 
 const Home = () => {
   const isSignedIn = useRecoilValue(userIsSignedIn);
-  console.log('isSignedIn: ', isSignedIn);
-  const mainPosts = useRecoilValue(getMainPosts);
+  const mainPosts = useRecoilValue(updateMainPosts);
 
   return (
     <AppLayout>
       {isSignedIn && <PostForm />}
-      {mainPosts.map((post) => <PostCard key={post.id} post={post} />)}
+      {mainPosts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
     </AppLayout>
-  )
-}
+  );
+};
 
 export default Home;

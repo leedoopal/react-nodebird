@@ -25,7 +25,7 @@ const PostCard = ({ post }) => {
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
-  const id = useRecoilValue(userMe)?.id;
+  const email = useRecoilValue(userMe)?.email;
 
   return (
     <div>
@@ -47,14 +47,14 @@ const PostCard = ({ post }) => {
             key="more"
             content={
               <Button.Group>
-                {post.user.id === id ? (
+                {/*{post.user.email === email ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger">삭제</Button>
                   </>
                 ) : (
                   <Button>신고</Button>
-                )}
+                )}*/}
               </Button.Group>
             }
           >
@@ -62,17 +62,21 @@ const PostCard = ({ post }) => {
           </Popover>,
         ]}
       >
-        <Card.Meta
+        {/*<Card.Meta
           avatar={<Avatar>{post.user.nickname[0]}</Avatar>}
           title={post.user.nickname}
           description={<PostCardContent postData={post.content} />}
-        />
+        />*/}
       </Card>
       {commentFormOpened && (
         <div>
           <CommentForm post={post} />
           <List
-            header={`${post.comments.length}개의 댓글`}
+            header={
+              post.comments
+                ? `${post.comments.length}개의 댓글`
+                : "아직 댓글이 없어요"
+            }
             itemLayout="horizontal"
             dataSource={post.comments}
             renderItem={(item) => (
@@ -81,7 +85,7 @@ const PostCard = ({ post }) => {
                   author={item.user.nickname}
                   avatar={<Avatar>{item.user.nickname[0]}</Avatar>}
                   content={item.content}
-                ></Comment>
+                />
               </li>
             )}
           />
