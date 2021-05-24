@@ -15,13 +15,16 @@ const CommentForm = ({ post }) => {
   const onSubmitComment = useCallback(() => {
     const newComment = {
       content: commentText,
-      postID: post.id,
-      email: "cindy",
+      user: {
+        postID: post.id,
+        email: "cindy",
+        nickname: "cindy",
+      },
     };
     setMainPostComment(newComment);
     // getMainPosts[findPostIndex].comments.push(newComment);
     // updateMainPostComment(getMainPosts);
-    console.log(getMainPosts);
+    console.log("getMainPosts: ", getMainPosts);
   }, [commentText]);
 
   return (

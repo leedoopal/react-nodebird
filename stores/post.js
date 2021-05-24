@@ -61,10 +61,17 @@ export const updateMainPostComment = selector({
   key: mainPostCommentKey,
   set: ({ set }, newComment) => {
     set(postState, ({ mainPosts }) => {
-      let findPost = mainPosts.filter((v) => v.id === newComment.postID)[0];
-      // 작업중
-      console.log("comments: ", findPost.comments);
-      // return [...mainPosts, findPost];
+      const findPostIndex = mainPosts.findIndex(
+        (v) => v.id === newComment.user.postID
+      );
+      return {
+        mainPosts: mainPosts.map((v, i) => {
+          if (i === findPostIndex) {
+            return { ...v, comments: v.comments.concat(newComment) };
+          }
+          return v;
+        }),
+      };
     });
   },
 });
