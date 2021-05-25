@@ -62,11 +62,11 @@ const PostCard = ({ post }) => {
           </Popover>,
         ]}
       >
-        {/*<Card.Meta
+        <Card.Meta
           avatar={<Avatar>{post.user.nickname[0]}</Avatar>}
           title={post.user.nickname}
           description={<PostCardContent postData={post.content} />}
-        />*/}
+        />
       </Card>
       {commentFormOpened && (
         <div>

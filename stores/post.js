@@ -67,7 +67,12 @@ export const updateMainPostComment = selector({
       return {
         mainPosts: mainPosts.map((v, i) => {
           if (i === findPostIndex) {
-            return { ...v, comments: v.comments.concat(newComment) };
+            return {
+              ...v,
+              comments: v.comments
+                ? v.comments.concat(newComment)
+                : [newComment],
+            };
           }
           return v;
         }),
