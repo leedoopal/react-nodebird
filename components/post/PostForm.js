@@ -1,29 +1,24 @@
-import React, { useState, useCallback, useRef } from "react";
-import { useSetRecoilState } from "recoil";
-import { updateMainPosts } from "../../stores/post";
+import React, { useCallback, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { updateMainPosts } from '../../stores/post';
+import useInput from '../../hooks/useInput';
 
 const PostForm = () => {
   const setMainPosts = useSetRecoilState(updateMainPosts);
   const imageInput = useRef();
 
-  const [text, setText] = useState("");
-  const onChangeText = useCallback(
-    (e) => {
-      setText(e.target.value);
-    },
-    [text]
-  );
+  const [text, onChangeText, setText] = useInput('');
   const onSubmit = useCallback(() => {
     const newPost = {
       id: Math.random(),
       content: text,
       user: {
-        email: "cindy",
-        nickname: "cindy",
+        email: 'cindy',
+        nickname: 'cindy',
       },
     };
     setMainPosts(newPost);
-    setText("");
+    setText('');
   }, [text]);
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();

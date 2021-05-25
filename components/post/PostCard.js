@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
-import { useRecoilValue } from "recoil";
+import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useRecoilValue } from 'recoil';
 
-import { Card, Popover, Button, Avatar, List, Comment } from "antd";
+import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
 import {
   RetweetOutlined,
   HeartTwoTone,
   HeartOutlined,
   MessageOutlined,
   EllipsisOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 
-import { userMe } from "../../stores/user";
-import PostImage from "./PostImage";
-import PostCardContent from "./PostCardContent";
-import CommentForm from "../comment/CommentForm";
+import { userMe } from '../../stores/user';
+import PostImage from './PostImage';
+import PostCardContent from './PostCardContent';
+import CommentForm from '../comment/CommentForm';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
-  const [commentFormOpened, setCommentFormOpened] = useState("");
+  const [commentFormOpened, setCommentFormOpened] = useState('');
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
   }, [liked]);
@@ -45,18 +45,18 @@ const PostCard = ({ post }) => {
           <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover
             key="more"
-            content={
+            content={(
               <Button.Group>
-                {/*{post.user.email === email ? (
+                {/* {post.user.email === email ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger">삭제</Button>
                   </>
                 ) : (
                   <Button>신고</Button>
-                )}*/}
+                )} */}
               </Button.Group>
-            }
+            )}
           >
             <EllipsisOutlined />
           </Popover>,
@@ -75,7 +75,7 @@ const PostCard = ({ post }) => {
             header={
               post.comments
                 ? `${post.comments.length}개의 댓글`
-                : "아직 댓글이 없어요"
+                : '아직 댓글이 없어요'
             }
             itemLayout="horizontal"
             dataSource={post.comments}
@@ -104,7 +104,7 @@ PostCard.propTypes = {
       createdAt: PropTypes.object,
       comments: PropTypes.arrayOf(PropTypes.object),
       images: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
+    }),
   },
 };
 

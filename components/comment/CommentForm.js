@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 
 import { Form, Button, Input } from "antd";
@@ -11,7 +11,8 @@ const CommentForm = ({ post }) => {
   const email = useRecoilValue(userMe)?.email;
   const setMainPostComment = useSetRecoilState(updateMainPostComment);
   const getMainPosts = useRecoilValue(updateMainPosts);
-  const [commentText, setCommentText] = useInput("");
+  const [commentText, onChangeCommentText, setCommentText] = useInput("");
+
   const onSubmitComment = useCallback(() => {
     const newComment = {
       content: commentText,
@@ -22,9 +23,9 @@ const CommentForm = ({ post }) => {
       },
     };
     setMainPostComment(newComment);
+    setCommentText("");
     // getMainPosts[findPostIndex].comments.push(newComment);
     // updateMainPostComment(getMainPosts);
-    console.log("getMainPosts: ", getMainPosts);
   }, [commentText]);
 
   return (
@@ -33,7 +34,7 @@ const CommentForm = ({ post }) => {
         <Input.TextArea
           value={commentText}
           rows={4}
-          onChange={setCommentText}
+          onChange={onChangeCommentText}
         />
         <Button type="primary" onClick={onSubmitComment}>
           삐약
@@ -52,7 +53,7 @@ CommentForm.propTypes = {
       createdAt: PropTypes.object,
       comments: PropTypes.arrayOf(PropTypes.object),
       images: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
+    }),
   },
 };
 
