@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
+import shortID from 'shortid';
 import { updateMainPosts } from '../../stores/post';
 import useInput from '../../hooks/useInput';
 
@@ -10,7 +11,7 @@ const PostForm = () => {
   const [text, onChangeText, setText] = useInput('');
   const onSubmit = useCallback(() => {
     const newPost = {
-      id: Math.random(),
+      id: shortID.generate(),
       content: text,
       user: {
         email: 'cindy',
