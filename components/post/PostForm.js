@@ -1,11 +1,11 @@
 import React, { useCallback, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
-import { updateMainPosts } from '../../stores/post';
+import { currentMainPosts } from '../../stores/post';
 import useInput from '../../hooks/useInput';
 
 const PostForm = () => {
-  const setMainPosts = useSetRecoilState(updateMainPosts);
+  const setMainPosts = useSetRecoilState(currentMainPosts);
   const imageInput = useRef();
 
   const [text, onChangeText, setText] = useInput('');

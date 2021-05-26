@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 
 import { userMe } from '../../stores/user';
+import { deleteMainPost } from '../../stores/post';
 import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
 import CommentForm from '../comment/CommentForm';
@@ -26,6 +27,11 @@ const PostCard = ({ post }) => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
   const email = useRecoilValue(userMe)?.email;
+  const deletePost = useSetRecoilState(deleteMainPost);
+
+  function deletePostHandler() {
+    deletePost(post);
+  }
 
   return (
     <div>
@@ -47,14 +53,14 @@ const PostCard = ({ post }) => {
             key="more"
             content={(
               <Button.Group>
-                {/* {post.user.email === email ? (
+                {post.user.email === email ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger">삭제</Button>
+                    <Button type="danger" onClick={deletePostHandler}>삭제</Button>
                   </>
                 ) : (
                   <Button>신고</Button>
-                )} */}
+                )}
               </Button.Group>
             )}
           >

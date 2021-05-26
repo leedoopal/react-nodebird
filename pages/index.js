@@ -1,16 +1,16 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React from 'react';
+import { useRecoilValue } from 'recoil';
 
-import AppLayout from "../components/AppLayout";
-import PostForm from "../components/post/PostForm";
-import PostCard from "../components/post/PostCard";
+import AppLayout from '../components/AppLayout';
+import PostForm from '../components/post/PostForm';
+import PostCard from '../components/post/PostCard';
 
-import { userIsSignedIn } from "../stores/user";
-import { updateMainPosts } from "../stores/post";
+import { userIsSignedIn } from '../stores/user';
+import { currentMainPosts } from '../stores/post';
 
 const Home = () => {
   const isSignedIn = useRecoilValue(userIsSignedIn);
-  const mainPosts = useRecoilValue(updateMainPosts);
+  const mainPosts = useRecoilValue(currentMainPosts);
 
   return (
     <AppLayout>

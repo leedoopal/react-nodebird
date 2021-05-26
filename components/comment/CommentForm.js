@@ -1,29 +1,32 @@
-import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import shortID from 'shortid';
 
-import { Form, Button, Input } from "antd";
-import useInput from "../../hooks/useInput";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userMe } from "../../stores/user";
-import { updateMainPostComment, updateMainPosts } from "../../stores/post";
+import { Form, Button, Input } from 'antd';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import useInput from '../../hooks/useInput';
+import { userMe } from '../../stores/user';
+import { updateMainPostComment, currentMainPosts } from '../../stores/post';
 
 const CommentForm = ({ post }) => {
   const email = useRecoilValue(userMe)?.email;
   const setMainPostComment = useSetRecoilState(updateMainPostComment);
-  const getMainPosts = useRecoilValue(updateMainPosts);
-  const [commentText, onChangeCommentText, setCommentText] = useInput("");
+  const getMainPosts = useRecoilValue(currentMainPosts);
+  const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
   const onSubmitComment = useCallback(() => {
     const newComment = {
+      id: shortID.generate(),
       content: commentText,
       user: {
+        id: shortID.generate(),
         postID: post.id,
-        email: "cindy",
-        nickname: "cindy",
+        email: 'cindy',
+        nickname: 'cindy',
       },
     };
     setMainPostComment(newComment);
-    setCommentText("");
+    setCommentText('');
     // getMainPosts[findPostIndex].comments.push(newComment);
     // updateMainPostComment(getMainPosts);
   }, [commentText]);

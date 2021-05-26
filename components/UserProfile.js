@@ -1,21 +1,21 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 
-import { Avatar, Card, Button } from "antd";
+import { Avatar, Card, Button } from 'antd';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   userMe,
   userIsSignedIn,
   userFollowingList,
   userFollowerList,
-} from "../stores/user";
-import { userSignOutAction } from "../server/api/user";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { updateMainPosts } from "../stores/post";
+} from '../stores/user';
+import { userSignOutAction } from '../server/api/user';
+import { currentMainPosts } from '../stores/post';
 
 const UserProfile = () => {
   const me = useRecoilValue(userMe);
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
   const isSignedIn = useRecoilValue(userIsSignedIn);
-  const mainPosts = useRecoilValue(updateMainPosts);
+  const mainPosts = useRecoilValue(currentMainPosts);
   const followingList = useRecoilValue(userFollowingList);
   const followerList = useRecoilValue(userFollowerList);
 
@@ -28,13 +28,25 @@ const UserProfile = () => {
     <Card
       actions={[
         <div key="twit">
-          짹짹 <br /> {mainPosts.length}
+          짹짹
+          {' '}
+          <br />
+          {' '}
+          {mainPosts.length}
         </div>,
         <div key="followings">
-          팔로잉 <br /> {followingList.length}
+          팔로잉
+          {' '}
+          <br />
+          {' '}
+          {followingList.length}
         </div>,
         <div key="followings">
-          팔로워 <br /> {followerList.length}
+          팔로워
+          {' '}
+          <br />
+          {' '}
+          {followerList.length}
         </div>,
       ]}
     >
