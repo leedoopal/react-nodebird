@@ -1,24 +1,25 @@
-import React, { useState, useCallback, useMemo } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
-import { PlusOutlined } from "@ant-design/icons";
-import ImagesZoom from "../image/ImagesZoom";
+import { PlusOutlined } from '@ant-design/icons';
+import ImagesZoom from '../image/ImagesZoom';
 
 const PostImage = ({ images }) => {
   const styles = useMemo(
     () => ({
-      margin: "16px 0",
-      textAlign: "center",
+      margin: '16px 0',
+      textAlign: 'center',
     }),
-    []
+    [],
   );
   const imageStyles = useMemo(
     () => ({
-      width: "50%",
-      maxHeight: "200px",
-      display: "inline-block",
+      width: 'auto',
+      maxHeight: '200px',
+      display: 'flex',
+      margin: '0 auto',
     }),
-    []
+    [],
   );
 
   const [showImagesZoom, setShowImagesZoom] = useState(false);
@@ -74,12 +75,13 @@ const PostImage = ({ images }) => {
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         />
         <div style={styles}>
           <PlusOutlined />
           <br />
-          {images.length - 1}개의 사진 더보기
+          {images.length - 1}
+          개의 사진 더보기
         </div>
       </div>
       {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}

@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import shortID from 'shortid';
+import faker from 'faker';
 
 export const postAtomKey = 'post';
 export const postState = atom({
@@ -47,7 +48,27 @@ export const postState = atom({
         imagePaths: [],
         postAdded: false,
       },
-    ],
+    ].concat(Array(20).fill().map(() => ({
+      id: shortID.generate(),
+      user: {
+        id: shortID.generate(),
+        nickname: faker.name.findName(),
+      },
+      content: faker.lorem.paragraph(),
+      images: [{
+        id: shortID.generate(),
+        src: faker.image.imageUrl(),
+      }],
+      comments: [
+        {
+          user: {
+            id: shortID.generate(),
+            nickname: faker.name.findName(),
+          },
+          content: faker.lorem.sentence(),
+        },
+      ],
+    }))),
   },
 });
 export const currentMainPostsKey = 'post/addMainPost';
