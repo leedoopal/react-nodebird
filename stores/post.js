@@ -2,73 +2,37 @@ import { atom, selector } from 'recoil';
 import shortID from 'shortid';
 import faker from 'faker';
 
+function setNewPosts() {
+  return Array(10).fill().map(() => ({
+    id: shortID.generate(),
+    user: {
+      id: shortID.generate(),
+      email: '1233wsh@google.com',
+      nickname: faker.name.findName(),
+    },
+    content: faker.lorem.paragraph(),
+    images: [{
+      id: shortID.generate(),
+      src: faker.image.image(),
+    }],
+    comments: [
+      {
+        user: {
+          id: shortID.generate(),
+          email: '1233wsh@google.com',
+          nickname: faker.name.findName(),
+        },
+        content: faker.lorem.sentence(),
+      },
+    ],
+  }));
+}
+
 export const postAtomKey = 'post';
 export const postState = atom({
   key: postAtomKey,
   default: {
-    mainPosts: [
-      {
-        id: 1,
-        user: {
-          id: 1,
-          email: 'cindy',
-          nickname: 'cindy',
-        },
-        content: '첫번째 게시글 #어쩌구#저쩌구',
-        images: [
-          {
-            id: shortID.generate(),
-            src: 'https://images.unsplash.com/photo-1593642532009-6ba71e22f468?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-          },
-          {
-            id: shortID.generate(),
-            src: 'https://images.unsplash.com/photo-1620205710247-65588efc1a24?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
-          },
-          {
-            id: shortID.generate(),
-            src: 'https://images.unsplash.com/photo-1620360576714-8301c750643b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
-          },
-        ],
-        comments: [
-          {
-            user: {
-              email: 'kindy',
-              nickname: 'kindy',
-            },
-            content: '뾰로롱',
-          },
-          {
-            user: {
-              email: 'panda',
-              nickname: 'panda',
-            },
-            content: '쀼루룽',
-          },
-        ],
-        imagePaths: [],
-        postAdded: false,
-      },
-    ].concat(Array(20).fill().map(() => ({
-      id: shortID.generate(),
-      user: {
-        id: shortID.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.paragraph(),
-      images: [{
-        id: shortID.generate(),
-        src: faker.image.imageUrl(),
-      }],
-      comments: [
-        {
-          user: {
-            id: shortID.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }))),
+    mainPosts: setNewPosts(),
   },
 });
 export const currentMainPostsKey = 'post/addMainPost';
@@ -87,6 +51,15 @@ export const deleteMainPost = selector({
   set: ({ set }, deletePost) => {
     set(postState, ({ mainPosts }) => ({
       mainPosts: mainPosts.filter((v) => v.id !== deletePost.id),
+    }));
+  },
+});
+export const loadMainPostKey = 'post/loadMainPost';
+export const loadMainPosts = selector({
+  key: loadMainPostKey,
+  set: ({ set }) => {
+    set(postState, ({ mainPosts }) => ({
+      mainPosts: [...mainPosts, ...setNewPosts()],
     }));
   },
 });

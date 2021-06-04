@@ -18,6 +18,7 @@ import PostCardContent from './PostCardContent';
 import CommentForm from '../comment/CommentForm';
 
 const PostCard = ({ post }) => {
+  console.log('post:', post);
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState('');
   const onToggleLike = useCallback(() => {
@@ -53,7 +54,7 @@ const PostCard = ({ post }) => {
             key="more"
             content={(
               <Button.Group>
-                {post.user.email === email ? (
+                {email && post.user.email === email ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger" onClick={deletePostHandler}>삭제</Button>
@@ -69,8 +70,8 @@ const PostCard = ({ post }) => {
         ]}
       >
         <Card.Meta
-          avatar={<Avatar>{post.user.nickname[0]}</Avatar>}
-          title={post.user.nickname}
+          avatar={<Avatar>{post.user?.nickname[0]}</Avatar>}
+          title={post.user?.nickname}
           description={<PostCardContent postData={post.content} />}
         />
       </Card>
