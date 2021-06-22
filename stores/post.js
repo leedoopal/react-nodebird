@@ -7,7 +7,7 @@ function setNewPosts() {
     id: shortID.generate(),
     user: {
       id: shortID.generate(),
-      email: '1233wsh@google.com',
+      email: '1233wsh@gmail.com',
       nickname: faker.name.findName(),
     },
     content: faker.lorem.paragraph(),
@@ -19,7 +19,7 @@ function setNewPosts() {
       {
         user: {
           id: shortID.generate(),
-          email: '1233wsh@google.com',
+          email: '1233wsh@gmail.com',
           nickname: faker.name.findName(),
         },
         content: faker.lorem.sentence(),

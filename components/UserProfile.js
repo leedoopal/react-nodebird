@@ -39,14 +39,14 @@ const UserProfile = () => {
           {' '}
           <br />
           {' '}
-          {followingList.length}
+          {(followingList && followingList.length) || 0}
         </div>,
         <div key="followings">
           팔로워
           {' '}
           <br />
           {' '}
-          {followerList.length}
+          {(followerList && followerList.length) || 0}
         </div>,
       ]}
     >

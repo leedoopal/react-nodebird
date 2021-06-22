@@ -26,20 +26,18 @@ export const userMe = selector({
   set: ({ set }, seq) => set(userState, { isSignedIn: true, me: seq }),
 });
 export const userFollowingListKey = 'user/followingList';
-export const userFollowingList = atom({
+export const userFollowingList = selector({
   key: userFollowingListKey,
-  default: [
-    { nickname: '나이키' },
-    { nickname: 'cindy' },
-    { nickname: '아디다스' },
-  ],
+  get: ({ get }) => get(userState).followingList || [],
+  set: ({ set }, newFollowingList) => {
+    set(userState, (prevUserState) => ({
+      ...prevUserState,
+      followingList: newFollowingList,
+    }));
+  },
 });
 export const userFollowerListKey = 'user/followerList';
 export const userFollowerList = atom({
   key: userFollowerListKey,
-  default: [
-    { nickname: '나이키' },
-    { nickname: 'cindy' },
-    { nickname: '아디다스' },
-  ],
+  default: [],
 });

@@ -15,10 +15,10 @@ import { userMe } from '../../stores/user';
 import { deleteMainPost } from '../../stores/post';
 import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
+import FollowButton from '../FollowButton';
 import CommentForm from '../comment/CommentForm';
 
 const PostCard = ({ post }) => {
-  console.log('post:', post);
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState('');
   const onToggleLike = useCallback(() => {
@@ -68,6 +68,7 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        extra={email && <FollowButton post={post} />}
       >
         <Card.Meta
           avatar={<Avatar>{post.user?.nickname[0]}</Avatar>}
