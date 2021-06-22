@@ -1,13 +1,13 @@
-import React, { useCallback } from "react";
-import Link from "next/link";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import React, { useCallback } from 'react';
+import Link from 'next/link';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Form, Input, Button } from "antd";
-import styled from "styled-components";
+import { Form, Input, Button } from 'antd';
+import styled from 'styled-components';
 
-import useInput from "../hooks/useInput";
-import { userIsSignedIn, userMe } from "../stores/user";
-import { userSignInAction } from "../server/api/user";
+import useInput from '../hooks/useInput';
+import { userIsSignedIn, userMe } from '../stores/user';
+import { userSignInAction } from '../server/api/user';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -17,8 +17,8 @@ const FormWrapper = styled(Form)`
 `;
 
 const SignedForm = () => {
-  const [email, onChangeEmail] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
@@ -27,8 +27,8 @@ const SignedForm = () => {
     setIsSignedIn(true);
     // const data = await userSignInAction({ email, password });
     setUserMe({
-      email: "cindy",
-      nickname: "cindy",
+      email: 'cindy',
+      nickname: 'cindy',
       posts: [{ id: 0 }, { id: 1 }, { id: 2 }],
     });
   }, [email, password]);
