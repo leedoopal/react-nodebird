@@ -8,12 +8,11 @@ const FollowButton = ({ post }) => {
   const me = useRecoilValue(userMe);
   const [followingList, setFollowingList] = useRecoilState(userFollowingList);
   const isFollowing = me
-    && followingList
-    && followingList.find((v) => v.nickname === post.user.nickname);
+    && followingList?.find((v) => v.nickname === post.user.nickname);
 
   const onClickButton = useCallback(() => {
     if (isFollowing) {
-      // setFollowingList();
+      setFollowingList(followingList.filter((v) => v.id !== post.user.id));
     } else {
       setFollowingList(followingList.concat(post.user));
     }
