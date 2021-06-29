@@ -20,7 +20,7 @@ const FollowButton = ({ post }) => {
 
   return (
     <>
-      <Button onClick={onClickButton}>Follow</Button>
+      <Button onClick={onClickButton}>{isFollowing ? '언팔로우' : '팔로우'}</Button>
     </>
   );
 };

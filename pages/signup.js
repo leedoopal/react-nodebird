@@ -1,34 +1,34 @@
-import React, { useCallback, useState } from "react";
-import Head from "next/head";
-import PropTypes from "prop-types";
+import React, { useCallback, useState } from 'react';
+import Head from 'next/head';
+import PropTypes from 'prop-types';
 
-import { Form, Input, Checkbox, Button } from "antd";
-import styled from "styled-components";
+import { Form, Input, Checkbox, Button } from 'antd';
+import styled from 'styled-components';
 
-import AppLayout from "../components/AppLayout";
-import useInput from "../hooks/useInput";
+import AppLayout from '../components/AppLayout';
+import useInput from '../hooks/useInput';
 
 const ErrorMessage = styled.div`
   color: red;
 `;
 
 const Signup = () => {
-  const [email, onChangeEmail] = useInput("");
-  const [nickname, onChangeNickname] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
       setPasswordError(e.target.value !== password);
     },
-    [password]
+    [password],
   );
 
-  const [terms, setTerms] = useState("");
-  const [termsError, setTermsError] = useState("");
+  const [terms, setTerms] = useState('');
+  const [termsError, setTermsError] = useState('');
   const onChangeTerms = useCallback((e) => {
     setTerms(e.target.checked);
     setTermsError(false);
@@ -41,6 +41,7 @@ const Signup = () => {
     if (!terms) {
       return setTermsError(true);
     }
+    return '';
   }, [password, passwordCheck, terms]);
 
   return (
