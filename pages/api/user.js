@@ -1,9 +1,13 @@
 import { signUpAction } from '../../server/api/user';
 
-const api = async (req, res) => {
+const api = async (req) => {
   const data = await signUpAction(req);
-  console.log(res);
-  res.status(200).json(data);
+
+  if (data.status === 403) {
+    alert('이미 존재하는 이메일 입니다');
+  }
+
+  return data.ok;
 };
 
 export default api;

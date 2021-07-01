@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
 import PropTypes from 'prop-types';
 
 import { Form, Input, Checkbox, Button } from 'antd';
@@ -43,8 +44,8 @@ const Signup = () => {
       return setTermsError(true);
     }
     const data = await signUpApi({ email, nickname, password });
-    console.log('data" ', data);
-    return data;
+    console.log(data);
+    return data && Router.push('/');
   }, [password, passwordCheck, terms]);
 
   return (

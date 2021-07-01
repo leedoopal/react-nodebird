@@ -7,10 +7,7 @@ export const signInAction = async (req) => await fetch('/api/signIn', {
   },
   body: JSON.stringify({ req }),
 })
-  .then((res) => {
-    console.log('signIn: ', res);
-    return res.json().catch(() => null);
-  })
+  .then((res) => res.json().catch(() => null))
   .catch((err) => {
     console.log('user api error message: ', err);
   }) || {};
@@ -35,7 +32,7 @@ export const signUpAction = async (req) => (
     },
     body: JSON.stringify(req),
   })
-    .then((res) => res.json())
+    .then((res) => res)
     .catch((err) => {
       console.log('user api error message: ', err);
     }) || {}
