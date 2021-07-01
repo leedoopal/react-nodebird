@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import AppLayout from '../components/AppLayout';
 import useInput from '../hooks/useInput';
+import signUpApi from './api/user';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -34,14 +35,16 @@ const Signup = () => {
     setTermsError(false);
   }, []);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (password !== passwordCheck) {
       return setPasswordError(true);
     }
     if (!terms) {
       return setTermsError(true);
     }
-    return '';
+    const data = await signUpApi({ email, nickname, password });
+    console.log('data" ', data);
+    return data;
   }, [password, passwordCheck, terms]);
 
   return (
@@ -109,8 +112,8 @@ const Signup = () => {
   );
 };
 
-Signup.propTypes = {
+/* Signup.propTypes = {
   setIsSignedIn: PropTypes.func.isRequired,
-};
+}; */
 
 export default Signup;
