@@ -1,6 +1,6 @@
 import { signUpAction } from '../../server/api/user';
 
-const api = async (req) => {
+export const signUpApi = async (req) => {
   const data = await signUpAction(req);
 
   if (data.status === 403) {
@@ -10,4 +10,4 @@ const api = async (req) => {
   return data.ok;
 };
 
-export default api;
+export default { signUpApi };
