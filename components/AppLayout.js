@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 
-import UserProfile from "./UserProfile";
-import SignedForm from "./SignedForm";
-import { userIsSignedIn } from "../stores/user";
+import UserProfile from './UserProfile';
+import SignedForm from './SignedForm';
+import { userIsSignedIn } from '../stores/user';
 
 const SearchInput = styled(Input.Search)`
-  vertical-align: middle
+  vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
@@ -41,26 +41,28 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isSignedIn ? <UserProfile /> :
-            <SignedForm />}
+          {isSignedIn ? <UserProfile /> : <SignedForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
         </Col>
         <Col xs={24} md={6}>
-          <a href="http://github.ebaykorea.com/seongwoo" target="_blank"
-             rel="noreferrer noopener">
+          <a
+            href="http://github.ebaykorea.com/seongwoo"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             Made by seongwoo
           </a>
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 AppLayout.propTypes = {
   // react의 node type (화면에 그릴 수 있는 모든 것들이 node)
-  children: PropTypes.node.isRequired
-}
+  children: PropTypes.node.isRequired,
+};
 
 export default AppLayout;

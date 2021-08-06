@@ -8,7 +8,7 @@ import {
   userFollowingList,
   userFollowerList,
 } from '../stores/user';
-import { userSignOutAction } from '../server/api/user';
+import { signOutAction } from '../server/api/user';
 import { currentMainPosts } from '../stores/post';
 
 const UserProfile = () => {
@@ -20,7 +20,7 @@ const UserProfile = () => {
   const followerList = useRecoilValue(userFollowerList);
 
   const onSignOut = useCallback(async () => {
-    // const data = await userSignOutAction();
+    await signOutAction();
     setIsSignedIn(false);
   }, []);
 
@@ -28,25 +28,13 @@ const UserProfile = () => {
     <Card
       actions={[
         <div key="twit">
-          짹짹
-          {' '}
-          <br />
-          {' '}
-          {mainPosts.length}
+          짹짹 <br /> {mainPosts.length}
         </div>,
         <div key="followings">
-          팔로잉
-          {' '}
-          <br />
-          {' '}
-          {(followingList && followingList.length) || 0}
+          팔로잉 <br /> {(followingList && followingList.length) || 0}
         </div>,
         <div key="followings">
-          팔로워
-          {' '}
-          <br />
-          {' '}
-          {(followerList && followerList.length) || 0}
+          팔로워 <br /> {(followerList && followerList.length) || 0}
         </div>,
       ]}
     >
