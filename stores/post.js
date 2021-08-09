@@ -3,36 +3,41 @@ import shortID from 'shortid';
 import faker from 'faker';
 
 function setNewPosts() {
-  return Array(10).fill().map(() => ({
-    id: shortID.generate(),
-    user: {
+  return Array(10)
+    .fill()
+    .map(() => ({
       id: shortID.generate(),
-      email: '1233wsh@gmail.com',
-      nickname: faker.name.findName(),
-    },
-    content: faker.lorem.paragraph(),
-    images: [{
-      id: shortID.generate(),
-      src: faker.image.image(),
-    }],
-    comments: [
-      {
-        user: {
-          id: shortID.generate(),
-          email: '1233wsh@gmail.com',
-          nickname: faker.name.findName(),
-        },
-        content: faker.lorem.sentence(),
+      user: {
+        id: shortID.generate(),
+        email: '1233wsh@gmail.com',
+        nickname: faker.name.findName(),
       },
-    ],
-  }));
+      content: faker.lorem.paragraph(),
+      images: [
+        {
+          id: shortID.generate(),
+          src: faker.image.image(),
+        },
+      ],
+      comments: [
+        {
+          user: {
+            id: shortID.generate(),
+            email: '1233wsh@gmail.com',
+            nickname: faker.name.findName(),
+          },
+          content: faker.lorem.sentence(),
+        },
+      ],
+    }));
 }
 
 export const postAtomKey = 'post';
 export const postState = atom({
   key: postAtomKey,
   default: {
-    mainPosts: setNewPosts(),
+    // mainPosts: setNewPosts(),
+    mainPosts: [],
   },
 });
 export const currentMainPostsKey = 'post/addMainPost';

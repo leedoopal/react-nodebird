@@ -23,7 +23,7 @@ const SignedForm = () => {
   const setUserMe = useSetRecoilState(userMe);
 
   const onSubmitForm = useCallback(async () => {
-    const { data } = await signInAction({ email, password });
+    const data = await signInAction({ email, password });
     await setUserMe(data);
   }, [email, password]);
 
