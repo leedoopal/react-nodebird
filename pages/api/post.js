@@ -6,6 +6,7 @@ export const addPostAction = async (req) => {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ data: req }),
   })
     .then((res) => res.json())
@@ -20,6 +21,7 @@ export const addCommentAction = async (req) => {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ data: req }),
   })
     .then((res) => res.json())
