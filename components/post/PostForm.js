@@ -3,13 +3,14 @@ import { useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
 import { currentMainPosts } from '../../stores/post';
 import useInput from '../../hooks/useInput';
+import { addPostAction } from '../../pages/api/post';
 
 const PostForm = () => {
   const setMainPosts = useSetRecoilState(currentMainPosts);
   const imageInput = useRef();
 
   const [text, onChangeText, setText] = useInput('');
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     const newPost = {
       id: shortID.generate(),
       content: text,
@@ -18,6 +19,7 @@ const PostForm = () => {
         nickname: 'cindy',
       },
     };
+    await addPostAction(newPost);
     setMainPosts(newPost);
     setText('');
   }, [text]);
@@ -35,8 +37,12 @@ const PostForm = () => {
       />
       <div>
         <input type="file" multiple hidden ref={imageInput} />
-        <button onClick={onClickImageUpload}>이미지 업로드</button>
-        <button onClick={onSubmit}>짹짹</button>
+        <button type="button" onClick={onClickImageUpload}>
+          이미지 업로드
+        </button>
+        <button type="button" onClick={onSubmit}>
+          짹짹
+        </button>
       </div>
     </div>
   );

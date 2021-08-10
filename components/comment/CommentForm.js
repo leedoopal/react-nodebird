@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useInput from '../../hooks/useInput';
 import { userMe } from '../../stores/user';
 import { updateMainPostComment, currentMainPosts } from '../../stores/post';
+import { addCommentAction } from '../../pages/api/post';
 
 const CommentForm = ({ post }) => {
   const email = useRecoilValue(userMe)?.email;
@@ -14,7 +15,7 @@ const CommentForm = ({ post }) => {
   const getMainPosts = useRecoilValue(currentMainPosts);
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
-  const onSubmitComment = useCallback(() => {
+  const onSubmitComment = useCallback(async () => {
     const newComment = {
       id: shortID.generate(),
       content: commentText,
@@ -25,6 +26,7 @@ const CommentForm = ({ post }) => {
         nickname: 'cindy',
       },
     };
+    await addCommentAction(newComment);
     setMainPostComment(newComment);
     setCommentText('');
     // getMainPosts[findPostIndex].comments.push(newComment);
