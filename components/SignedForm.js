@@ -24,6 +24,7 @@ const SignedForm = () => {
 
   const onSubmitForm = useCallback(async () => {
     const data = await signInAction({ email, password });
+    console.log('signin', data);
     await setUserMe(data);
   }, [email, password]);
 

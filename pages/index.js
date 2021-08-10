@@ -5,19 +5,28 @@ import AppLayout from '../components/AppLayout';
 import PostForm from '../components/post/PostForm';
 import PostCard from '../components/post/PostCard';
 
-import { userIsSignedIn } from '../stores/user';
+import { userIsSignedIn, userMe } from '../stores/user';
 import { currentMainPosts, loadMainPosts } from '../stores/post';
+import { loadUserAction } from '../server/api/user';
 
 const Home = () => {
   const isSignedIn = useRecoilValue(userIsSignedIn);
+  const setUserMe = useSetRecoilState(userMe);
   const mainPosts = useRecoilValue(currentMainPosts);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+
+  useEffect(async () => {
+    const data = await loadUserAction();
+    if (data) {
+      setUserMe(data);
+    }
+  }, [isSignedIn]);
 
   useEffect(() => {
     function onScroll() {
       if (
-        window.scrollY + document.documentElement.clientHeight
-        === document.documentElement.scrollHeight
+        window.scrollY + document.documentElement.clientHeight ===
+        document.documentElement.scrollHeight
       ) {
         // 50개까지만 로드
         if (mainPosts.length < 50) {

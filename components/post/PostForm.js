@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
 import { currentMainPosts } from '../../stores/post';
 import useInput from '../../hooks/useInput';
-import { addPostAction } from '../../pages/api/post';
+import { addPostAction } from '../../server/api/post';
 
 const PostForm = () => {
   const setMainPosts = useSetRecoilState(currentMainPosts);

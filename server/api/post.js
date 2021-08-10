@@ -1,17 +1,33 @@
-const addPost = async (req) => {
-  return await fetch(`/api/post/${req.postID}/comment`, {
-    method: "POST",
+import urls from '../../config/urls';
+
+export const addPostAction = async (req) => {
+  await fetch(`${urls.hostUrl}/post`, {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({}),
+    credentials: 'include',
+    body: JSON.stringify({ data: req }),
   })
-    .then((res) => {
-      return res.json().catch(() => null);
-    })
+    .then((res) => res.json())
     .catch((err) => {
-      console.log("user api error message: ", err);
+      console.log('user api error message: ', err);
     });
 };
 
-export default { addPost };
+export const addCommentAction = async (req) => {
+  await fetch(`${urls.hostUrl}/post/${req.postId}/comment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ data: req }),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+};
+
+export default { addPostAction, addCommentAction };

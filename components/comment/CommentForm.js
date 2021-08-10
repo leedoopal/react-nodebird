@@ -7,7 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useInput from '../../hooks/useInput';
 import { userMe } from '../../stores/user';
 import { updateMainPostComment, currentMainPosts } from '../../stores/post';
-import { addCommentAction } from '../../pages/api/post';
+import { addCommentAction } from '../../server/api/post';
 
 const CommentForm = ({ post }) => {
   const email = useRecoilValue(userMe)?.email;
