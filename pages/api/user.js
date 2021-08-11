@@ -1,10 +1,4 @@
-import { loadUserAction, signUpAction } from '../../server/api/user';
-
-export const loadUserApi = async () => {
-  const data = await loadUserAction();
-  console.log(data);
-  return data;
-};
+import { signUpAction } from '../../server/api/user';
 
 export const signUpApi = async (req) => {
   const data = await signUpAction(req);
@@ -16,4 +10,4 @@ export const signUpApi = async (req) => {
   return data.ok;
 };
 
-export default { loadUserApi, signUpApi };
+export default { signUpApi };

@@ -44,7 +44,6 @@ const Signup = () => {
       return setTermsError(true);
     }
     const data = await signUpApi({ email, nickname, password });
-    console.log(data);
     return data && Router.push('/');
   }, [password, passwordCheck, terms]);
 

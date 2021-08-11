@@ -1,5 +1,19 @@
 import urls from '../../config/urls';
 
+export const loadPostsAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/posts`, {
+    method: 'GET',
+    credentials: 'include',
+    body: JSON.stringify(req),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
 export const addPostAction = async (req) => {
   await fetch(`${urls.hostUrl}/post`, {
     method: 'POST',

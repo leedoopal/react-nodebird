@@ -62,10 +62,17 @@ export const deleteMainPost = selector({
 export const loadMainPostKey = 'post/loadMainPost';
 export const loadMainPosts = selector({
   key: loadMainPostKey,
-  set: ({ set }) => {
-    set(postState, ({ mainPosts }) => ({
-      mainPosts: [...mainPosts, ...setNewPosts()],
-    }));
+  set: ({ set }, newPosts) => {
+    set(postState, ({ mainPosts }) => {
+      if (mainPosts.length) {
+        return {
+          mainPosts: mainPosts.filter(
+            (v) => !newPosts.find(({ id }) => v.id === id),
+          ),
+        };
+      }
+      return { mainPosts: newPosts };
+    });
   },
 });
 export const mainPostCommentKey = 'post/mainPostComment';

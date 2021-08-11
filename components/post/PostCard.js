@@ -27,8 +27,11 @@ const PostCard = ({ post }) => {
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
+
   const email = useRecoilValue(userMe)?.email;
   const deletePost = useSetRecoilState(deleteMainPost);
+
+  const { user } = post.content;
 
   function deletePostHandler() {
     deletePost(post);
@@ -52,18 +55,20 @@ const PostCard = ({ post }) => {
           <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover
             key="more"
-            content={(
+            content={
               <Button.Group>
-                {email && post.user.email === email ? (
+                {email && post.user?.email === email ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger" onClick={deletePostHandler}>삭제</Button>
+                    <Button type="danger" onClick={deletePostHandler}>
+                      삭제
+                    </Button>
                   </>
                 ) : (
                   <Button>신고</Button>
                 )}
               </Button.Group>
-            )}
+            }
           >
             <EllipsisOutlined />
           </Popover>,
@@ -71,8 +76,8 @@ const PostCard = ({ post }) => {
         extra={email && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{post.user?.nickname[0]}</Avatar>}
-          title={post.user?.nickname}
+          avatar={<Avatar>{user?.nickname[0]}</Avatar>}
+          title={user?.nickname}
           description={<PostCardContent postData={post.content} />}
         />
       </Card>

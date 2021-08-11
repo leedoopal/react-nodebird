@@ -7,7 +7,9 @@ import styled from 'styled-components';
 
 import useInput from '../hooks/useInput';
 import { userIsSignedIn, userMe } from '../stores/user';
+import { loadMainPosts } from '../stores/post';
 import { signInAction } from '../server/api/user';
+import { loadPostsAction } from '../server/api/post';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -21,11 +23,14 @@ const SignedForm = () => {
   const [password, onChangePassword] = useInput('');
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
+  const setLoadMainPosts = useSetRecoilState(loadMainPosts);
 
   const onSubmitForm = useCallback(async () => {
     const data = await signInAction({ email, password });
-    console.log('signin', data);
     await setUserMe(data);
+
+    const postsData = await loadPostsAction();
+    await setLoadMainPosts(postsData);
   }, [email, password]);
 
   return (

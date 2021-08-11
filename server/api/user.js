@@ -8,6 +8,7 @@ export const loadUserAction = async (req) => {
   })
     .then((res) => res.json())
     .catch((err) => console.log(err));
+
   return data;
 };
 
