@@ -7,8 +7,8 @@ import { userFollowingList, userMe } from '../stores/user';
 const FollowButton = ({ post }) => {
   const me = useRecoilValue(userMe);
   const [followingList, setFollowingList] = useRecoilState(userFollowingList);
-  const isFollowing = me
-    && followingList?.find((v) => v.nickname === post.user.nickname);
+  const isFollowing =
+    me && followingList?.find((v) => v.nickname === post.user.nickname);
 
   const onClickButton = useCallback(() => {
     if (isFollowing) {
@@ -20,12 +20,14 @@ const FollowButton = ({ post }) => {
 
   return (
     <>
-      <Button onClick={onClickButton}>{isFollowing ? '언팔로우' : '팔로우'}</Button>
+      <Button onClick={onClickButton}>
+        {isFollowing ? '언팔로우' : '팔로우'}
+      </Button>
     </>
   );
 };
 
-FollowButton.propTypes = {
+FollowButton.defaultProps = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,

@@ -21,7 +21,7 @@ const CommentForm = ({ post }) => {
       content: commentText,
       user: {
         id: shortID.generate(),
-        postID: post.id,
+        postId: post.id,
         email: 'cindy',
         nickname: 'cindy',
       },
@@ -49,7 +49,7 @@ const CommentForm = ({ post }) => {
   );
 };
 
-CommentForm.propTypes = {
+CommentForm.defaultProps = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,

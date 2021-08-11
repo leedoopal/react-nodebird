@@ -30,7 +30,7 @@ export const addPostAction = async (req) => {
 };
 
 export const addCommentAction = async (req) => {
-  await fetch(`${urls.hostUrl}/post/${req.postId}/comment`, {
+  await fetch(`${urls.hostUrl}/post/${req.user.postId}/comment`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

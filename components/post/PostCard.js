@@ -32,6 +32,7 @@ const PostCard = ({ post }) => {
   const deletePost = useSetRecoilState(deleteMainPost);
 
   const { user } = post.content;
+  const comments = post.Comments?.map((v) => JSON.parse(v.content));
 
   function deletePostHandler() {
     deletePost(post);
@@ -86,19 +87,14 @@ const PostCard = ({ post }) => {
           <CommentForm post={post} />
           <List
             header={
-              post.comments
-                ? `${post.comments.length}개의 댓글`
-                : '아직 댓글이 없어요'
+              comments ? `${comments.length}개의 댓글` : '아직 댓글이 없어요'
             }
             itemLayout="horizontal"
-            dataSource={post.comments}
+            dataSource={comments}
             renderItem={(item) => (
               <li>
-                <Comment
-                  author={item.user.nickname}
-                  avatar={<Avatar>{item.user.nickname[0]}</Avatar>}
-                  content={item.content}
-                />
+                <span>{item.user.nickname}:</span>
+                <span>{item.content}</span>
               </li>
             )}
           />
@@ -114,7 +110,7 @@ PostCard.propTypes = {
       id: PropTypes.number,
       user: PropTypes.object,
       content: PropTypes.string,
-      createdAt: PropTypes.object,
+      createdAt: PropTypes.string,
       comments: PropTypes.arrayOf(PropTypes.object),
       images: PropTypes.arrayOf(PropTypes.object),
     }),
