@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
+import { Card, Popover, Button, Avatar, List } from 'antd';
 import {
   RetweetOutlined,
   HeartTwoTone,
@@ -32,11 +32,20 @@ const PostCard = ({ post }) => {
   const deletePost = useSetRecoilState(deleteMainPost);
 
   const { user } = post.content;
-  const comments = post.Comments?.map((v) => JSON.parse(v.content));
 
   function deletePostHandler() {
     deletePost(post);
   }
+
+  function updateComments() {
+    return post.Comments?.map((v) => JSON.parse(v.content));
+  }
+
+  let comments = updateComments();
+
+  useEffect(() => {
+    comments = updateComments();
+  }, [post.Comments]);
 
   return (
     <div>
@@ -87,7 +96,9 @@ const PostCard = ({ post }) => {
           <CommentForm post={post} />
           <List
             header={
-              comments ? `${comments.length}개의 댓글` : '아직 댓글이 없어요'
+              comments && comments.length > 0
+                ? `${comments.length}개의 댓글`
+                : '아직 댓글이 없어요'
             }
             itemLayout="horizontal"
             dataSource={comments}

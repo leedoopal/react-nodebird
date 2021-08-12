@@ -14,6 +14,19 @@ export const loadPostsAction = async (req) => {
   return data;
 };
 
+export const loadPostAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/post/${req.postId}`, {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
 export const addPostAction = async (req) => {
   const data = await fetch(`${urls.hostUrl}/post`, {
     method: 'POST',
@@ -32,7 +45,7 @@ export const addPostAction = async (req) => {
 };
 
 export const addCommentAction = async (req) => {
-  await fetch(`${urls.hostUrl}/post/${req.user.postId}/comment`, {
+  const data = await fetch(`${urls.hostUrl}/post/${req.user.postId}/comment`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -44,6 +57,13 @@ export const addCommentAction = async (req) => {
     .catch((err) => {
       console.log('user api error message: ', err);
     });
+
+  return data;
 };
 
-export default { addPostAction, addCommentAction };
+export default {
+  loadPostsAction,
+  loadPostAction,
+  addPostAction,
+  addCommentAction,
+};

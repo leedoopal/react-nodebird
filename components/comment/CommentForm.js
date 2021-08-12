@@ -5,14 +5,20 @@ import shortID from 'shortid';
 import { Form, Button, Input } from 'antd';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useInput from '../../hooks/useInput';
+import {
+  currentMainPosts,
+  loadMainPosts,
+  updateMainPost,
+  updateMainPostComment,
+} from '../../stores/post';
 import { userMe } from '../../stores/user';
-import { updateMainPostComment, currentMainPosts } from '../../stores/post';
-import { addCommentAction } from '../../server/api/post';
+import { addCommentAction, loadPostAction } from '../../server/api/post';
 
 const CommentForm = ({ post }) => {
-  const email = useRecoilValue(userMe)?.email;
-  const setMainPostComment = useSetRecoilState(updateMainPostComment);
-  const getMainPosts = useRecoilValue(currentMainPosts);
+  const me = useRecoilValue(userMe);
+  const mainPosts = useRecoilValue(currentMainPosts);
+  const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+  const setUpdateMainPost = useSetRecoilState(updateMainPost);
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
   const onSubmitComment = useCallback(async () => {
@@ -20,17 +26,17 @@ const CommentForm = ({ post }) => {
       id: shortID.generate(),
       content: commentText,
       user: {
-        id: shortID.generate(),
+        id: me.id,
+        email: me.email,
+        nickname: me.nickname,
         postId: post.id,
-        email: 'cindy',
-        nickname: 'cindy',
       },
     };
+
     await addCommentAction(newComment);
-    setMainPostComment(newComment);
+    setUpdateMainPost(await loadPostAction({ postId: post.id }));
+
     setCommentText('');
-    // getMainPosts[findPostIndex].comments.push(newComment);
-    // updateMainPostComment(getMainPosts);
   }, [commentText]);
 
   return (
