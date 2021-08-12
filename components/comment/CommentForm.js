@@ -5,19 +5,12 @@ import shortID from 'shortid';
 import { Form, Button, Input } from 'antd';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useInput from '../../hooks/useInput';
-import {
-  currentMainPosts,
-  loadMainPosts,
-  updateMainPost,
-  updateMainPostComment,
-} from '../../stores/post';
+import { updateMainPost } from '../../stores/post';
 import { userMe } from '../../stores/user';
 import { addCommentAction, loadPostAction } from '../../server/api/post';
 
 const CommentForm = ({ post }) => {
   const me = useRecoilValue(userMe);
-  const mainPosts = useRecoilValue(currentMainPosts);
-  const setLoadMainPosts = useSetRecoilState(loadMainPosts);
   const setUpdateMainPost = useSetRecoilState(updateMainPost);
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
@@ -34,8 +27,8 @@ const CommentForm = ({ post }) => {
     };
 
     await addCommentAction(newComment);
-    setUpdateMainPost(await loadPostAction({ postId: post.id }));
 
+    setUpdateMainPost(await loadPostAction({ postId: post.id }));
     setCommentText('');
   }, [commentText]);
 

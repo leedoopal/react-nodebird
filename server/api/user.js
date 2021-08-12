@@ -52,5 +52,3 @@ export const signUpAction = async (req) =>
     .catch((err) => {
       console.log('user api error message: ', err);
     })) || {};
-
-export default { loadUserAction, signInAction, signOutAction, signUpAction };

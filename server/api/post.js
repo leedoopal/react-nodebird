@@ -60,10 +60,3 @@ export const addCommentAction = async (req) => {
 
   return data;
 };
-
-export default {
-  loadPostsAction,
-  loadPostAction,
-  addPostAction,
-  addCommentAction,
-};
