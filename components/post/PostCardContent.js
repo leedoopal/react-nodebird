@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const PostCardContent = ({ postData }) => <div>{postData.content}</div>;
 
-PostCardContent.defaultProps = {
+PostCardContent.propTypes = {
   postData: {
     content: PropTypes.string.isRequired,
   },

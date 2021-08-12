@@ -1,11 +1,13 @@
 import React, { useCallback, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
 import { currentMainPosts } from '../../stores/post';
+import { userMe } from '../../stores/user';
 import useInput from '../../hooks/useInput';
 import { addPostAction } from '../../server/api/post';
 
 const PostForm = () => {
+  const me = useRecoilValue(userMe);
   const setMainPosts = useSetRecoilState(currentMainPosts);
   const imageInput = useRef();
 
@@ -15,12 +17,16 @@ const PostForm = () => {
       id: shortID.generate(),
       content: text,
       user: {
-        email: 'cindy',
-        nickname: 'cindy',
+        id: me.id,
+        email: me.email,
+        nickname: me.nickname,
       },
     };
-    await addPostAction(newPost);
-    setMainPosts(newPost);
+
+    const data = await addPostAction(newPost);
+    data.content = JSON.parse(data.content);
+    setMainPosts(data);
+
     setText('');
   }, [text]);
   const onClickImageUpload = useCallback(() => {

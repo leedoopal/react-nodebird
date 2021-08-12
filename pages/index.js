@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import AppLayout from '../components/AppLayout';
@@ -34,7 +34,7 @@ const Home = () => {
       ) {
         // 50개까지만 로드
         if (mainPosts.length < 50) {
-          // const postsData = await loadPostsAction();
+          const postsData = await loadPostsAction();
           // setLoadMainPosts(postsData);
         }
       }

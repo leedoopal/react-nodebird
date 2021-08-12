@@ -15,7 +15,7 @@ export const loadPostsAction = async (req) => {
 };
 
 export const addPostAction = async (req) => {
-  await fetch(`${urls.hostUrl}/post`, {
+  const data = await fetch(`${urls.hostUrl}/post`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,6 +27,8 @@ export const addPostAction = async (req) => {
     .catch((err) => {
       console.log('user api error message: ', err);
     });
+
+  return data;
 };
 
 export const addCommentAction = async (req) => {

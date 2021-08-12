@@ -46,7 +46,7 @@ export const currentMainPosts = selector({
   get: ({ get }) => get(postState).mainPosts,
   set: ({ set }, newPost) => {
     set(postState, (prevPost) => ({
-      mainPosts: [...prevPost.mainPosts, newPost],
+      mainPosts: [newPost, ...prevPost.mainPosts],
     }));
   },
 });
