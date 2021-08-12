@@ -1,4 +1,4 @@
-# react nodebird
+# react nodebird frontend
 
 <p>nextjs, recoil 공부중</p>
 <br/>
@@ -8,6 +8,10 @@
 사전에 react-nodebird-backend를 실행시켜두어야함.
 <br/>
 link: [react-nodebird-backend](https://github.com/leedoopal/react-nodebird-backend)
+
+<br/>
+그 후에 아래 명령어 실행
+<br/>
 
 ```javascript
 yarn install
