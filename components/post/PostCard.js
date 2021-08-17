@@ -17,18 +17,21 @@ import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
 import FollowButton from '../FollowButton';
 import CommentForm from '../comment/CommentForm';
+import { likeTogglePostAction } from '../../server/api/post';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState('');
-  const onToggleLike = useCallback(() => {
+  const onToggleLike = useCallback(async () => {
+    await likeTogglePostAction({ postId: post.id, liked });
+
     setLiked((prev) => !prev);
   }, [liked]);
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
 
-  const email = useRecoilValue(userMe)?.email;
+  const me = useRecoilValue(userMe);
   const deletePost = useSetRecoilState(deleteMainPost);
 
   const { user } = post.content;
@@ -46,6 +49,15 @@ const PostCard = ({ post }) => {
   useEffect(() => {
     comments = updateComments();
   }, [post.Comments]);
+
+  useEffect(() => {
+    post.Likers.find((v) => {
+      if (v.Like.PostId === post.id && v.Like.UserId === me.id) {
+        setLiked(true);
+      }
+      return false;
+    });
+  }, []);
 
   return (
     <div>
@@ -67,7 +79,7 @@ const PostCard = ({ post }) => {
             key="more"
             content={
               <Button.Group>
-                {email && post.user?.email === email ? (
+                {me.email && post.user?.email === me.email ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger" onClick={deletePostHandler}>
@@ -83,7 +95,7 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
-        extra={email && <FollowButton post={post} />}
+        extra={me.email && <FollowButton post={post} />}
       >
         <Card.Meta
           avatar={<Avatar>{user?.nickname[0]}</Avatar>}

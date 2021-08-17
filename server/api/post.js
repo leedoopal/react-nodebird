@@ -44,6 +44,24 @@ export const addPostAction = async (req) => {
   return data;
 };
 
+export const likeTogglePostAction = async (req) => {
+  const method = req.liked ? 'DELETE' : 'POST';
+
+  const data = await fetch(`${urls.hostUrl}/post/${req.postId}/like`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res)
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
 export const addCommentAction = async (req) => {
   const data = await fetch(`${urls.hostUrl}/post/${req.user.postId}/comment`, {
     method: 'POST',
@@ -51,7 +69,6 @@ export const addCommentAction = async (req) => {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify({ data: req }),
   })
     .then((res) => res.json())
     .catch((err) => {
