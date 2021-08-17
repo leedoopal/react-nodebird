@@ -1,42 +1,45 @@
-import React, { useState, useMemo } from 'react';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { profileState } from '../stores/profile';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userMe } from '../stores/user';
+import { updateUserNicknameAction } from '../server/api/user';
 
 const NicknameEditForm = () => {
   const [nickname, setNickname] = useState('');
-  const currentNinkname = useRecoilValue(profileState);
-  const updateNickname = useSetRecoilState(profileState);
+  const me = useRecoilValue(userMe);
+  const setUserMe = useSetRecoilState(userMe);
 
-  const style = useMemo(() => ({
-    marginBottom: '20px',
-    border: '1px solid #d9d9d9',
-    padding: '20px',
-  }), []);
+  const style = useMemo(
+    () => ({
+      marginBottom: '20px',
+      border: '1px solid #d9d9d9',
+      padding: '20px',
+    }),
+    [],
+  );
 
   function changeNickname(e) {
     setNickname(e.currentTarget.value);
   }
 
-  function saveNickname() {
-    updateNickname(nickname);
+  const onSubmit = useCallback(async () => {
+    await updateUserNicknameAction({ nickname });
+
+    const updateUserMe = { ...me, nickname };
+    setUserMe(updateUserMe);
     setNickname('');
-  }
+  }, [nickname]);
 
   return (
     <div style={style}>
-      {currentNinkname && (
-      <p>
-        현재 닉네임:
-        {currentNinkname}
-      </p>
-      )}
       <input
         type="text"
         placeholder="닉네임"
         onChange={changeNickname}
         value={nickname}
       />
-      <button onClick={saveNickname}>수정</button>
+      <button type="button" onClick={onSubmit}>
+        수정
+      </button>
     </div>
   );
 };

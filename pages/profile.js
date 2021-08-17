@@ -15,10 +15,10 @@ const Profile = () => {
   const me = useRecoilValue(userMe);
 
   useEffect(() => {
-    if (me && me.id) {
+    if (!me) {
       Router.push('/');
     }
-  }, [me && me.id]);
+  }, [me, me?.id]);
 
   if (!me) {
     return null;

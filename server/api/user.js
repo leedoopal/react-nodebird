@@ -12,6 +12,21 @@ export const loadUserAction = async (req) => {
   return data;
 };
 
+export const updateUserNicknameAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/user/nickname`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(req),
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+
+  return data;
+};
+
 export const signInAction = async (req) =>
   (await fetch(`${urls.hostUrl}/user/login`, {
     method: 'POST',
