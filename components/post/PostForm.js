@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import Router from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
 import { currentMainPosts } from '../../stores/post';
@@ -22,6 +23,8 @@ const PostForm = () => {
         nickname: me.nickname,
       },
     };
+
+    if (!me) Router.push('/');
 
     const data = await addPostAction(newPost);
     data.content = JSON.parse(data.content);
