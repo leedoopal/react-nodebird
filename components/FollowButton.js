@@ -7,6 +7,7 @@ import { userFollowingList, userMe } from '../stores/user';
 const FollowButton = ({ post }) => {
   const me = useRecoilValue(userMe);
   const [followingList, setFollowingList] = useRecoilState(userFollowingList);
+
   const isFollowing =
     me && followingList?.find((v) => v.nickname === post.user.nickname);
 
@@ -18,6 +19,11 @@ const FollowButton = ({ post }) => {
     }
   }, [followingList]);
 
+  // 본인 포스트인 경우 팔로우버튼 숨김
+  if (post.UserId === me.id) {
+    return null;
+  }
+
   return (
     <>
       <Button onClick={onClickButton}>
@@ -27,7 +33,8 @@ const FollowButton = ({ post }) => {
   );
 };
 
-FollowButton.defaultProps = {
+FollowButton.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,
@@ -37,6 +44,7 @@ FollowButton.defaultProps = {
       comments: PropTypes.arrayOf(PropTypes.object),
       images: PropTypes.arrayOf(PropTypes.object),
     }),
+    UserId: PropTypes.number,
   },
 };
 

@@ -29,6 +29,7 @@
     "react-jsx-one-expression-pre-line": "off",
     "object-curly-newline": 0,
     "linebreak-style": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "operator-linebreak": ["error", "after"]
   }
 }
