@@ -44,6 +44,22 @@ export const addPostAction = async (req) => {
   return data;
 };
 
+export const deletePostAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/post/${req.postId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res)
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
 export const likeTogglePostAction = async (req) => {
   const method = req.liked ? 'DELETE' : 'POST';
 

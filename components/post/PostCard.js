@@ -17,7 +17,7 @@ import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
 import FollowButton from '../FollowButton';
 import CommentForm from '../comment/CommentForm';
-import { likeTogglePostAction } from '../../server/api/post';
+import { deletePostAction, likeTogglePostAction } from '../../server/api/post';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
@@ -36,7 +36,8 @@ const PostCard = ({ post }) => {
 
   const { user } = post.content;
 
-  function deletePostHandler() {
+  async function deletePostHandler() {
+    await deletePostAction({ postId: post.id });
     deletePost(post);
   }
 
@@ -79,7 +80,7 @@ const PostCard = ({ post }) => {
             key="more"
             content={
               <Button.Group>
-                {me.email && post.user?.email === me.email ? (
+                {me.id && post.UserId === me.id ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger" onClick={deletePostHandler}>
@@ -128,6 +129,7 @@ const PostCard = ({ post }) => {
 };
 
 PostCard.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,
@@ -135,7 +137,8 @@ PostCard.propTypes = {
       content: PropTypes.string,
       createdAt: PropTypes.string,
       comments: PropTypes.arrayOf(PropTypes.object),
-      images: PropTypes.arrayOf(PropTypes.object),
+      Images: PropTypes.arrayOf(PropTypes.object),
+      Likers: PropTypes.arrayOf(PropTypes.object),
     }),
   },
 };
