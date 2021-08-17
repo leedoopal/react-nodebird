@@ -80,7 +80,7 @@ const PostCard = ({ post }) => {
             key="more"
             content={
               <Button.Group>
-                {me.id && post.UserId === me.id ? (
+                {me?.id && post.UserId === me.id ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger" onClick={deletePostHandler}>

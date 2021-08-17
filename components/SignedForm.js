@@ -27,10 +27,15 @@ const SignedForm = () => {
 
   const onSubmitForm = useCallback(async () => {
     const data = await signInAction({ email, password });
-    await setUserMe(data);
 
-    const postsData = await loadPostsAction();
-    await setLoadMainPosts(postsData);
+    if (data && data.email) {
+      await setUserMe(data);
+
+      const postsData = await loadPostsAction();
+      await setLoadMainPosts(postsData);
+    } else {
+      alert('비밀번호가 일치하지 않아요');
+    }
   }, [email, password]);
 
   return (

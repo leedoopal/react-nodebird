@@ -21,6 +21,7 @@ const Signup = () => {
 
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false);
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
@@ -43,9 +44,13 @@ const Signup = () => {
     if (!terms) {
       return setTermsError(true);
     }
+
+    setLoading(true);
     const data = await signUpApi({ email, nickname, password });
+    setLoading(false);
+
     return data && Router.push('/');
-  }, [password, passwordCheck, terms]);
+  }, [email, nickname, password, passwordCheck, terms]);
 
   return (
     <AppLayout>
@@ -103,7 +108,7 @@ const Signup = () => {
           {termsError && <ErrorMessage>약관에 동의하셔야 합니다.</ErrorMessage>}
         </div>
         <div>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             가입하기
           </Button>
         </div>
