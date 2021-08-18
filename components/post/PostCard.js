@@ -13,11 +13,12 @@ import {
 
 import { userMe } from '../../stores/user';
 import { deleteMainPost } from '../../stores/post';
+import { deletePostAction, likeTogglePostAction } from '../../server/api/post';
+
 import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
 import FollowButton from '../FollowButton';
 import CommentForm from '../comment/CommentForm';
-import { deletePostAction, likeTogglePostAction } from '../../server/api/post';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);

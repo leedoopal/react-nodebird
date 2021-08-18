@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
-import PropTypes from 'prop-types';
 
 import { Form, Input, Checkbox, Button } from 'antd';
 import styled from 'styled-components';
@@ -116,9 +115,5 @@ const Signup = () => {
     </AppLayout>
   );
 };
-
-/* Signup.propTypes = {
-  setIsSignedIn: PropTypes.func.isRequired,
-}; */
 
 export default Signup;
