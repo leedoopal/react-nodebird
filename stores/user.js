@@ -6,10 +6,6 @@ export const userState = atom({
   default: {
     isSignedIn: false,
     me: null,
-    signUpData: {},
-    signInData: {},
-    followingList: [],
-    followerList: [],
   },
 });
 
@@ -24,17 +20,6 @@ export const userMe = selector({
   key: userMeKey,
   get: ({ get }) => get(userState).me,
   set: ({ set }, seq) => set(userState, { isSignedIn: true, me: seq }),
-});
-export const userFollowingListKey = 'user/followingList';
-export const userFollowingList = selector({
-  key: userFollowingListKey,
-  get: ({ get }) => get(userState).followingList || [],
-  set: ({ set }, newFollowingList) => {
-    set(userState, (prevUserState) => ({
-      ...prevUserState,
-      followingList: newFollowingList,
-    }));
-  },
 });
 export const userFollowerListKey = 'user/followerList';
 export const userFollowerList = atom({

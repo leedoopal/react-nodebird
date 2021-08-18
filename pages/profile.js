@@ -3,15 +3,13 @@ import Head from 'next/head';
 import Router from 'next/router';
 import { useRecoilValue } from 'recoil';
 
-import { userFollowerList, userFollowingList, userMe } from '../stores/user';
+import { userMe } from '../stores/user';
 import AppLayout from '../components/AppLayout';
 import NicknameEditForm from '../components/NicknameEditForm';
 import FollowList from '../components/FollowList';
 import FollowerList from '../components/FollowerList';
 
 const Profile = () => {
-  const followingList = useRecoilValue(userFollowingList);
-  const followerList = useRecoilValue(userFollowerList);
   const me = useRecoilValue(userMe);
 
   useEffect(() => {
@@ -27,12 +25,12 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>내 프로필 | Cidny NodeBird</title>
+        <title>내 프로필 | {me.nickname} NodeBird</title>
       </Head>
       <AppLayout>
         <NicknameEditForm />
-        <FollowList header="팔로잉 목록" data={followingList} />
-        <FollowerList header="팔로워 목록" data={followerList} />
+        <FollowList header="팔로잉 목록" data={me.Followings} />
+        <FollowerList header="팔로워 목록" data={me.Followers} />
       </AppLayout>
     </>
   );
