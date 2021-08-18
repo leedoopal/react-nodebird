@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { userMe } from '../stores/user';
-import { followAction } from '../server/api/user';
+import { followUpdateAction } from '../server/api/user';
 
 const FollowButton = ({ post }) => {
   const [me, setUserMe] = useRecoilState(userMe);
@@ -12,7 +12,7 @@ const FollowButton = ({ post }) => {
 
   const onClickButton = useCallback(async () => {
     if (isFollowing) {
-      await followAction({ method: 'DELETE', userId: post.UserId });
+      await followUpdateAction({ method: 'DELETE', userId: post.UserId });
 
       const filterFollowings = me.Followings.filter(
         (v) => v.id !== post.UserId,
@@ -21,7 +21,7 @@ const FollowButton = ({ post }) => {
 
       setUserMe(updateMe);
     } else {
-      await followAction({ method: 'PATCH', userId: post.UserId });
+      await followUpdateAction({ method: 'PATCH', userId: post.UserId });
 
       const addFollowings = me.Followings.concat({ id: post.UserId });
       const updateMe = { ...me, Followings: addFollowings };

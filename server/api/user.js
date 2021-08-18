@@ -68,7 +68,7 @@ export const signUpAction = async (req) =>
       console.log('user api error message: ', err);
     })) || {};
 
-export const followAction = async (req) => {
+export const followUpdateAction = async (req) => {
   const data = await fetch(`${urls.hostUrl}/user/${req.userId}/follow`, {
     method: req.method,
     headers: {
@@ -77,6 +77,38 @@ export const followAction = async (req) => {
     credentials: 'include',
   })
     .then((res) => res)
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
+export const getFollowersAction = async () => {
+  const data = await fetch(`${urls.hostUrl}/user/followers`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
+export const getFollowingsAction = async () => {
+  const data = await fetch(`${urls.hostUrl}/user/followings`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res.json())
     .catch((err) => {
       console.log('user api error message: ', err);
     });
