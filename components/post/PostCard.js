@@ -21,19 +21,20 @@ import FollowButton from '../FollowButton';
 import CommentForm from '../comment/CommentForm';
 
 const PostCard = ({ post }) => {
+  const me = useRecoilValue(userMe);
+  const deletePost = useSetRecoilState(deleteMainPost);
+
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState('');
+
   const onToggleLike = useCallback(async () => {
     await likeTogglePostAction({ postId: post.id, liked });
-
     setLiked((prev) => !prev);
   }, [liked]);
+
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
-
-  const me = useRecoilValue(userMe);
-  const deletePost = useSetRecoilState(deleteMainPost);
 
   const { user } = post.content;
 

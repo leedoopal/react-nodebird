@@ -1,12 +1,11 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userMe } from '../stores/user';
 import { updateUserNicknameAction } from '../server/api/user';
 
 const NicknameEditForm = () => {
   const [nickname, setNickname] = useState('');
-  const me = useRecoilValue(userMe);
-  const setUserMe = useSetRecoilState(userMe);
+  const [me, setUserMe] = useRecoilState(userMe);
 
   const style = useMemo(
     () => ({
