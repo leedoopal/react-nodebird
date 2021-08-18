@@ -1,23 +1,34 @@
 import React, { useCallback } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
-import { userFollowingList, userMe } from '../stores/user';
+import { userMe } from '../stores/user';
+import { followAction } from '../server/api/user';
 
 const FollowButton = ({ post }) => {
-  const me = useRecoilValue(userMe);
-  const [followingList, setFollowingList] = useRecoilState(userFollowingList);
+  const [me, setUserMe] = useRecoilState(userMe);
 
-  const isFollowing =
-    me && followingList?.find((v) => v.nickname === post.user.nickname);
+  const isFollowing = me && me.Followings?.find((v) => v.id === post.UserId);
 
-  const onClickButton = useCallback(() => {
+  const onClickButton = useCallback(async () => {
     if (isFollowing) {
-      setFollowingList(followingList.filter((v) => v.id !== post.user.id));
+      await followAction({ method: 'DELETE', userId: post.UserId });
+
+      const filterFollowings = me.Followings.filter(
+        (v) => v.id !== post.UserId,
+      );
+      const updateMe = { ...me, Followings: filterFollowings };
+
+      setUserMe(updateMe);
     } else {
-      setFollowingList(followingList.concat(post.user));
+      await followAction({ method: 'PATCH', userId: post.UserId });
+
+      const addFollowings = me.Followings.concat({ id: post.UserId });
+      const updateMe = { ...me, Followings: addFollowings };
+
+      setUserMe(updateMe);
     }
-  }, [followingList]);
+  }, [isFollowing]);
 
   // 본인 포스트인 경우 팔로우버튼 숨김
   if (post.UserId === me.id) {

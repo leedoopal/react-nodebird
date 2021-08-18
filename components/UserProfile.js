@@ -2,12 +2,7 @@ import React, { useCallback } from 'react';
 
 import { Avatar, Card, Button } from 'antd';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  userMe,
-  userIsSignedIn,
-  userFollowingList,
-  userFollowerList,
-} from '../stores/user';
+import { userMe, userIsSignedIn } from '../stores/user';
 import { signOutAction } from '../server/api/user';
 import { currentMainPosts } from '../stores/post';
 
@@ -16,8 +11,6 @@ const UserProfile = () => {
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const mainPosts = useRecoilValue(currentMainPosts);
-  const followingList = useRecoilValue(userFollowingList);
-  const followerList = useRecoilValue(userFollowerList);
 
   const onSignOut = useCallback(async () => {
     await signOutAction();
@@ -31,10 +24,10 @@ const UserProfile = () => {
           짹짹 <br /> {mainPosts.length}
         </div>,
         <div key="followings">
-          팔로잉 <br /> {(followingList && followingList.length) || 0}
+          팔로잉 <br /> {(me.Followings && me.Followings.length) || 0}
         </div>,
         <div key="followings">
-          팔로워 <br /> {(followerList && followerList.length) || 0}
+          팔로워 <br /> {(me.Followers && me.Followers.length) || 0}
         </div>,
       ]}
     >

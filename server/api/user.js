@@ -67,3 +67,19 @@ export const signUpAction = async (req) =>
     .catch((err) => {
       console.log('user api error message: ', err);
     })) || {};
+
+export const followAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/user/${req.userId}/follow`, {
+    method: req.method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res)
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
