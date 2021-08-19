@@ -4,7 +4,11 @@ import Router from 'next/router';
 import { useRecoilState } from 'recoil';
 
 import { userMe } from '../stores/user';
-import { getFollowersAction, getFollowingsAction } from '../server/api/user';
+import {
+  getFollowersAction,
+  getFollowingsAction,
+  loadUserAction,
+} from '../server/api/user';
 
 import AppLayout from '../components/AppLayout';
 import NicknameEditForm from '../components/NicknameEditForm';
@@ -15,6 +19,18 @@ const Profile = () => {
   const [me, setUserMe] = useRecoilState(userMe);
 
   useEffect(async () => {
+    if (!me) {
+      const data = await loadUserAction();
+
+      if (data?.id) {
+        await setUserMe(data);
+      } else {
+        Router.push('/');
+      }
+    }
+  }, [me]);
+
+  useEffect(async () => {
     const followingsList = await getFollowingsAction();
     const followersList = await getFollowersAction();
     const updateMe = {
@@ -22,14 +38,8 @@ const Profile = () => {
       Followings: followingsList,
       Followers: followersList,
     };
-    setUserMe(updateMe);
+    if (me) setUserMe(updateMe);
   }, []);
-
-  useEffect(() => {
-    if (!me) {
-      Router.push('/');
-    }
-  }, [me && me.id]);
 
   if (!me) {
     return null;

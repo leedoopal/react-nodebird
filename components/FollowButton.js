@@ -28,7 +28,7 @@ const FollowButton = ({ post }) => {
 
       setUserMe(updateMe);
     }
-  }, [isFollowing]);
+  }, []);
 
   // 본인 포스트인 경우 팔로우버튼 숨김
   if (post.UserId === me.id) {
