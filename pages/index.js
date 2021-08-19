@@ -33,10 +33,10 @@ const Home = () => {
         document.documentElement.scrollHeight
       ) {
         // 50개까지만 로드
-        if (mainPosts.length < 50) {
+        /*if (mainPosts.length < 50) {
           const postsData = await loadPostsAction();
           // setLoadMainPosts(postsData);
-        }
+        }*/
       }
     }
 

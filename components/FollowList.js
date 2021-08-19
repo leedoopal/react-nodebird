@@ -11,24 +11,24 @@ const FollowList = ({ header, data }) => {
   const onClick = async (id) => {
     await followUpdateAction({ method: 'DELETE', userId: id });
 
-    const filterFollowings = me.Followings.filter((v) => v.id !== data.UserId);
+    const filterFollowings = me.Followings.filter((v) => v.id !== id);
     const updateMe = { ...me, Followings: filterFollowings };
-    console.log(updateMe);
-    // setUserMe(updateMe);
+    setUserMe(updateMe);
   };
 
   return (
     <>
       <div>
         <h3>{header}</h3>
-        {data.map((v) => (
-          <div key={v.id}>
-            <span>{v.nickname}</span>
-            <button type="button" onClick={() => onClick(v.id)}>
-              언팔로우 하기
-            </button>
-          </div>
-        ))}
+        {data &&
+          data.map((v) => (
+            <div key={v.id}>
+              <span>{v.nickname}</span>
+              <button type="button" onClick={() => onClick(v.id)}>
+                언팔로우 하기
+              </button>
+            </div>
+          ))}
         <button type="button">더보기</button>
       </div>
     </>
