@@ -84,6 +84,22 @@ export const followUpdateAction = async (req) => {
   return data;
 };
 
+export const followerDeleteAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/user/follower/${req.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((res) => res)
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
 export const getFollowersAction = async () => {
   const data = await fetch(`${urls.hostUrl}/user/followers`, {
     method: 'GET',

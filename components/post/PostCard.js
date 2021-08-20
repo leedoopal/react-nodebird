@@ -62,6 +62,10 @@ const PostCard = ({ post }) => {
     });
   }, []);
 
+  if (!me) {
+    return null;
+  }
+
   return (
     <div>
       <Card

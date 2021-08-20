@@ -13,7 +13,6 @@ import {
 import AppLayout from '../components/AppLayout';
 import NicknameEditForm from '../components/NicknameEditForm';
 import FollowList from '../components/FollowList';
-import FollowerList from '../components/FollowerList';
 
 const Profile = () => {
   const [me, setUserMe] = useRecoilState(userMe);
@@ -52,8 +51,16 @@ const Profile = () => {
       </Head>
       <AppLayout>
         <NicknameEditForm />
-        <FollowList header="팔로잉 목록" data={me.Followings} />
-        <FollowerList header="팔로워 목록" data={me.Followers} />
+        <FollowList
+          header="팔로잉 목록"
+          headerKey="following"
+          data={me.Followings}
+        />
+        <FollowList
+          header="팔로워 목록"
+          headerKey="follower"
+          data={me.Followers}
+        />
       </AppLayout>
     </>
   );
