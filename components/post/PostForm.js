@@ -5,7 +5,7 @@ import shortID from 'shortid';
 import { currentMainPosts } from '../../stores/post';
 import { userMe } from '../../stores/user';
 import useInput from '../../hooks/useInput';
-import { addPostAction } from '../../server/api/post';
+import { addPostAction, uploadImagesAction } from '../../server/api/post';
 
 const PostForm = () => {
   const me = useRecoilValue(userMe);
@@ -36,6 +36,14 @@ const PostForm = () => {
     imageInput.current.click();
   }, [imageInput.current]);
 
+  const onChangeImages = useCallback(async (e) => {
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (file) => {
+      imageFormData.append('image', file);
+    });
+    await uploadImagesAction(imageFormData);
+  }, []);
+
   return (
     <div>
       <input
@@ -45,7 +53,14 @@ const PostForm = () => {
         value={text}
       />
       <div>
-        <input type="file" multiple hidden ref={imageInput} />
+        <input
+          type="file"
+          name="image"
+          multiple
+          hidden
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
         <button type="button" onClick={onClickImageUpload}>
           이미지 업로드
         </button>

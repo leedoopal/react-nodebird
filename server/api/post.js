@@ -93,3 +93,17 @@ export const addCommentAction = async (req) => {
 
   return data;
 };
+
+export const uploadImagesAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/post/images`, {
+    method: 'POST',
+    credentials: 'include',
+    body: req,
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
