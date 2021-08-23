@@ -1,8 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import Router from 'next/router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import shortID from 'shortid';
-import { currentMainPosts } from '../../stores/post';
+import { Button, Form, Input } from 'antd';
+
+import { currentImagePath, currentMainPosts } from '../../stores/post';
 import { userMe } from '../../stores/user';
 import useInput from '../../hooks/useInput';
 import { addPostAction, uploadImagesAction } from '../../server/api/post';
@@ -10,10 +12,17 @@ import { addPostAction, uploadImagesAction } from '../../server/api/post';
 const PostForm = () => {
   const me = useRecoilValue(userMe);
   const setMainPosts = useSetRecoilState(currentMainPosts);
-  const imageInput = useRef();
+  const [imagePaths, setImagePaths] = useRecoilState(currentImagePath);
 
+  const imageInput = useRef();
   const [text, onChangeText, setText] = useInput('');
+
+  // eslint-disable-next-line consistent-return
   const onSubmit = useCallback(async () => {
+    if (!text || !text.trim()) {
+      return alert('게시글을 작성하세요.');
+    }
+
     const newPost = {
       id: shortID.generate(),
       content: text,
@@ -41,16 +50,24 @@ const PostForm = () => {
     [].forEach.call(e.target.files, (file) => {
       imageFormData.append('image', file);
     });
-    await uploadImagesAction(imageFormData);
+    const data = await uploadImagesAction(imageFormData);
+    setImagePaths(data);
   }, []);
 
+  const onRemoveImage = useCallback(
+    (index) => {
+      setImagePaths(imagePaths.filter((path, i) => i !== index));
+    },
+    [imagePaths],
+  );
+
   return (
-    <div>
-      <input
-        type="text"
-        onChange={onChangeText}
-        placeholder="어떤 일이 있었나요?"
+    <Form>
+      <Input.TextArea
         value={text}
+        onChange={onChangeText}
+        maxLength={140}
+        placeholder="어떤 신기한 일이 있었나요?"
       />
       <div>
         <input
@@ -61,14 +78,31 @@ const PostForm = () => {
           ref={imageInput}
           onChange={onChangeImages}
         />
-        <button type="button" onClick={onClickImageUpload}>
+        <Button type="button" onClick={onClickImageUpload}>
           이미지 업로드
-        </button>
-        <button type="button" onClick={onSubmit}>
+        </Button>
+        <Button type="button" onClick={onSubmit}>
           짹짹
-        </button>
+        </Button>
       </div>
-    </div>
+      <div>
+        {imagePaths &&
+          imagePaths.map((image, i) => (
+            <div key={image} style={{ display: 'inline-block' }}>
+              <img
+                src={`http://localhost:3065/${image}`}
+                style={{ width: '200px' }}
+                alt={image}
+              />
+              <div>
+                <Button type="button" onClick={() => onRemoveImage(i)}>
+                  제거
+                </Button>
+              </div>
+            </div>
+          ))}
+      </div>
+    </Form>
   );
 };
 

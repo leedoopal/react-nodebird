@@ -5,6 +5,7 @@ export const postState = atom({
   key: postAtomKey,
   default: {
     mainPosts: [],
+    imagePaths: [],
   },
 });
 export const currentMainPostsKey = 'post/addMainPost';
@@ -52,5 +53,19 @@ export const updateMainPost = selector({
         return v;
       }),
     }));
+  },
+});
+export const currentImagePathKey = 'post/currentImagePath';
+export const currentImagePath = selector({
+  key: currentImagePathKey,
+  get: ({ get }) => get(postState).imagePaths,
+  set: ({ set }, paths) => {
+    set(postState, ({ mainPosts }) => {
+      console.log('store: ', paths);
+      return {
+        mainPosts,
+        imagePaths: paths,
+      };
+    });
   },
 });
