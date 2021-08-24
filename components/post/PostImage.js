@@ -2,6 +2,8 @@ import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { PlusOutlined } from '@ant-design/icons';
+
+import urls from '../../config/urls';
 import ImagesZoom from '../image/ImagesZoom';
 
 const PostImage = ({ images }) => {
@@ -30,59 +32,26 @@ const PostImage = ({ images }) => {
     setShowImagesZoom(false);
   }, []);
 
-  if (images.length === 1) {
-    return (
-      <>
-        <img
-          role="presentation"
-          src={images[0].src}
-          alt={images[0].src}
-          onClick={onZoom}
-          style={imageStyles}
-        />
-        {showImagesZoom && <ImagesZoom image={images} onClose={onClose} />}
-      </>
-    );
-  }
-
-  if (images.length === 2) {
-    return (
-      <>
-        <img
-          role="presentation"
-          src={images[0].src}
-          alt={images[0].src}
-          onClick={onZoom}
-          style={imageStyles}
-        />
-        <img
-          role="presentation"
-          src={images[1].src}
-          alt={images[0].src}
-          onClick={onZoom}
-          style={imageStyles}
-        />
-        {showImagesZoom && <ImagesZoom image={images} onClose={onClose} />}
-      </>
-    );
-  }
+  const replaceImageUrl = (path) => `${urls.hostUrl}/${path}`;
 
   return (
     <>
       <div>
         <img
           role="presentation"
-          src={images[0].src}
-          alt={images[0].src}
+          src={replaceImageUrl(images[0].src)}
+          alt={replaceImageUrl(images[0].src)}
           onClick={onZoom}
           style={{ width: '100%' }}
         />
-        <div style={styles}>
-          <PlusOutlined />
-          <br />
-          {images.length - 1}
-          개의 사진 더보기
-        </div>
+        {images.length > 1 && (
+          <div style={styles} onClick={onZoom}>
+            <PlusOutlined />
+            <br />
+            {images.length - 1}
+            개의 사진 더보기
+          </div>
+        )}
       </div>
       {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
     </>

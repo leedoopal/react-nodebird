@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 import Router from 'next/router';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
-import shortID from 'shortid';
 import { Button, Form, Input } from 'antd';
 
+import urls from '../../config/urls';
 import { currentImagePath, currentMainPosts } from '../../stores/post';
 import { userMe } from '../../stores/user';
 import useInput from '../../hooks/useInput';
@@ -23,24 +23,24 @@ const PostForm = () => {
       return alert('게시글을 작성하세요.');
     }
 
-    const newPost = {
-      id: shortID.generate(),
-      content: text,
-      user: {
-        id: me.id,
-        email: me.email,
-        nickname: me.nickname,
-      },
-    };
+    const formData = new FormData();
+
+    if (imagePaths) {
+      imagePaths.forEach((path) => {
+        formData.append('image', path);
+      });
+    }
+
+    formData.append('content', text);
 
     if (!me) Router.push('/');
 
-    const data = await addPostAction(newPost);
-    data.content = JSON.parse(data.content);
+    const data = await addPostAction(formData);
+    console.log(data);
     setMainPosts(data);
 
     setText('');
-  }, [text]);
+  }, [text, imagePaths]);
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
@@ -90,7 +90,7 @@ const PostForm = () => {
           imagePaths.map((image, i) => (
             <div key={image} style={{ display: 'inline-block' }}>
               <img
-                src={`http://localhost:3065/${image}`}
+                src={`${urls.hostUrl}/${image}`}
                 style={{ width: '200px' }}
                 alt={image}
               />

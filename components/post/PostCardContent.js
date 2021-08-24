@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PostCardContent = ({ postData }) => <div>{postData.content}</div>;
+const PostCardContent = ({ postContentData }) => <div>{postContentData}</div>;
 
 PostCardContent.propTypes = {
-  postData: {
-    content: PropTypes.string.isRequired,
-  },
+  postContentData: PropTypes.string.isRequired,
 };
 
 export default PostCardContent;

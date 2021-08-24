@@ -36,8 +36,6 @@ const PostCard = ({ post }) => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
 
-  const { user } = post.content;
-
   async function deletePostHandler() {
     await deletePostAction({ postId: post.id });
     deletePost(post);
@@ -69,7 +67,7 @@ const PostCard = ({ post }) => {
   return (
     <div>
       <Card
-        cover={post.images && <PostImage images={post.images} />}
+        cover={post.Images.length > 0 && <PostImage images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
           liked ? (
@@ -105,9 +103,13 @@ const PostCard = ({ post }) => {
         extra={me.id && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{user?.nickname[0]}</Avatar>}
-          title={user?.nickname}
-          description={<PostCardContent postData={post.content} />}
+          avatar={<Avatar>{post.User?.nickname[0]}</Avatar>}
+          title={post.User?.nickname}
+          description={
+            typeof post.content === 'string' && (
+              <PostCardContent postContentData={post.content} />
+            )
+          }
         />
       </Card>
       {commentFormOpened && (
@@ -139,7 +141,7 @@ PostCard.propTypes = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,
-      user: PropTypes.object,
+      User: PropTypes.object,
       content: PropTypes.string,
       createdAt: PropTypes.string,
       comments: PropTypes.arrayOf(PropTypes.object),

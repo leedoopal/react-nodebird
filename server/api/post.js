@@ -30,11 +30,8 @@ export const loadPostAction = async (req) => {
 export const addPostAction = async (req) => {
   const data = await fetch(`${urls.hostUrl}/post`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     credentials: 'include',
-    body: JSON.stringify({ data: req }),
+    body: req,
   })
     .then((res) => res.json())
     .catch((err) => {
