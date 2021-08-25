@@ -36,9 +36,9 @@ const PostForm = () => {
     if (!me) Router.push('/');
 
     const data = await addPostAction(formData);
-    console.log(data);
-    setMainPosts(data);
+    data.content = data.content.replace(/['"]+/g, '');
 
+    setMainPosts(data);
     setText('');
   }, [text, imagePaths]);
   const onClickImageUpload = useCallback(() => {
