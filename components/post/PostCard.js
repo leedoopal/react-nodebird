@@ -13,7 +13,11 @@ import {
 
 import { userMe } from '../../stores/user';
 import { deleteMainPost } from '../../stores/post';
-import { deletePostAction, likeTogglePostAction } from '../../server/api/post';
+import {
+  deletePostAction,
+  likeTogglePostAction,
+  retweetAction,
+} from '../../server/api/post';
 
 import PostImage from './PostImage';
 import PostCardContent from './PostCardContent';
@@ -28,13 +32,27 @@ const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState('');
 
   const onToggleLike = useCallback(async () => {
+    if (!me.id) {
+      return alert('로그인이 필요합니다');
+    }
     await likeTogglePostAction({ postId: post.id, liked });
-    setLiked((prev) => !prev);
-  }, [liked]);
+    return setLiked((prev) => !prev);
+  }, [liked, me?.id]);
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, [commentFormOpened]);
+
+  const onRetweet = useCallback(async () => {
+    if (!me.id) {
+      return alert('로그인이 필요합니다');
+    }
+
+    const data = await retweetAction({ id: post.id });
+    if (data.message) {
+      return alert(data.message);
+    }
+  }, [me?.id]);
 
   async function deletePostHandler() {
     await deletePostAction({ postId: post.id });
@@ -64,12 +82,29 @@ const PostCard = ({ post }) => {
     return null;
   }
 
+  const CardMetaComponent = (type) => {
+    const cardContentData =
+      type === 'retweet' ? post.Retweet.content : post.content;
+
+    return (
+      <Card.Meta
+        avatar={<Avatar>{post.User?.nickname[0]}</Avatar>}
+        title={post.User?.nickname}
+        description={
+          typeof post.content === 'string' && (
+            <PostCardContent postContentData={cardContentData} />
+          )
+        }
+      />
+    );
+  };
+
   return (
     <div>
       <Card
         cover={post.Images.length > 0 && <PostImage images={post.Images} />}
         actions={[
-          <RetweetOutlined key="retweet" />,
+          <RetweetOutlined key="retweet" onClick={onRetweet} />,
           liked ? (
             <HeartTwoTone
               twoToneColor="eb2f96"
@@ -100,17 +135,22 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        title={post.RetweetId && `${post.User.nickname}님이 리트윗 했어요 ^.^`}
         extra={me.id && <FollowButton post={post} />}
       >
-        <Card.Meta
-          avatar={<Avatar>{post.User?.nickname[0]}</Avatar>}
-          title={post.User?.nickname}
-          description={
-            typeof post.content === 'string' && (
-              <PostCardContent postContentData={post.content} />
-            )
-          }
-        />
+        {post.RetweetId && post.Retweet ? (
+          <Card
+            cover={
+              post.Retweet.Images?.length > 0 && (
+                <PostImage images={post.Retweet.Images} />
+              )
+            }
+          >
+            <CardMetaComponent type="Retweet" />
+          </Card>
+        ) : (
+          <CardMetaComponent />
+        )}
       </Card>
       {commentFormOpened && (
         <div>
@@ -147,6 +187,8 @@ PostCard.propTypes = {
       comments: PropTypes.arrayOf(PropTypes.object),
       Images: PropTypes.arrayOf(PropTypes.object),
       Likers: PropTypes.arrayOf(PropTypes.object),
+      RetweetId: PropTypes.number,
+      Retweet: PropTypes.objectOf(PropTypes.any),
     }),
   },
 };

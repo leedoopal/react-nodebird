@@ -104,3 +104,16 @@ export const uploadImagesAction = async (req) => {
 
   return data;
 };
+
+export const retweetAction = async (req) => {
+  const data = await fetch(`${urls.hostUrl}/post/${req.id}/retweet`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
