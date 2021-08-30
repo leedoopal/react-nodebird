@@ -44,18 +44,21 @@ const FollowButton = ({ post }) => {
   );
 };
 
-FollowButton.propTypes = {
-  // eslint-disable-next-line react/require-default-props
+FollowButton.defaultProps = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,
-      user: PropTypes.object,
+      User: PropTypes.object,
+      UserId: PropTypes.number,
       content: PropTypes.string,
-      createdAt: PropTypes.object,
-      comments: PropTypes.arrayOf(PropTypes.object),
-      images: PropTypes.arrayOf(PropTypes.object),
+      createdAt: PropTypes.string,
+      Comments: PropTypes.arrayOf(PropTypes.object),
+      Images: PropTypes.arrayOf(PropTypes.object),
+      Likers: PropTypes.arrayOf(PropTypes.object),
+      Retweet: PropTypes.objectOf(PropTypes.any),
+      RetweetId: PropTypes.number,
+      Hashtags: PropTypes.objectOf(PropTypes.any),
     }),
-    UserId: PropTypes.number,
   },
 };
 

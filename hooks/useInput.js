@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-export default (initialValue = null) => {
+const UseInput = (initialValue = null) => {
   const [value, setValue] = useState(initialValue);
 
   // component에 props로 넘기는 함수는 useCallback을 사용하자
@@ -9,3 +9,5 @@ export default (initialValue = null) => {
   }, []);
   return [value, handler, setValue];
 };
+
+export default UseInput;

@@ -60,7 +60,7 @@ const SignedForm = () => {
         <Button type="primary" htmlType="submit" loading={isSignedIn}>
           로그인
         </Button>
-        <Link href="signup">
+        <Link href="/signup">
           <a>
             <Button>회원가입</Button>
           </a>

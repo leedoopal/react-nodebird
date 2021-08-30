@@ -19,10 +19,10 @@ const Home = () => {
   useEffect(async () => {
     const data = await loadUserAction();
     if (data?.id) {
-      await setUserMe(data);
+      setUserMe(data);
 
       const postsData = await loadPostsAction();
-      await setLoadMainPosts(postsData);
+      setLoadMainPosts(postsData);
     }
   }, []);
 
@@ -32,11 +32,12 @@ const Home = () => {
         window.scrollY + document.documentElement.clientHeight ===
         document.documentElement.scrollHeight
       ) {
+        const lastId = mainPosts[mainPosts.length - 1]?.id;
         // 50개까지만 로드
-        /*if (mainPosts.length < 50) {
-          const postsData = await loadPostsAction();
-          // setLoadMainPosts(postsData);
-        }*/
+        if (mainPosts.length < 50) {
+          const postsData = await loadPostsAction({ query: lastId });
+          setLoadMainPosts(postsData);
+        }
       }
     }
 

@@ -176,21 +176,22 @@ const PostCard = ({ post }) => {
   );
 };
 
-PostCard.propTypes = {
-  // eslint-disable-next-line react/require-default-props
+PostCard.defaultProps = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,
       User: PropTypes.object,
+      UserId: PropTypes.number,
       content: PropTypes.string,
       createdAt: PropTypes.string,
-      comments: PropTypes.arrayOf(PropTypes.object),
+      Comments: PropTypes.arrayOf(PropTypes.object),
       Images: PropTypes.arrayOf(PropTypes.object),
       Likers: PropTypes.arrayOf(PropTypes.object),
-      RetweetId: PropTypes.number,
       Retweet: PropTypes.objectOf(PropTypes.any),
+      RetweetId: PropTypes.number,
+      Hashtags: PropTypes.objectOf(PropTypes.any),
     }),
-  },
+  }.isRequired,
 };
 
 export default PostCard;

@@ -1,10 +1,10 @@
 import urls from '../../config/urls';
 
 export const loadPostsAction = async (req) => {
-  const data = await fetch(`${urls.hostUrl}/posts`, {
+  const hasQuery = req?.query ? `?lastId=${req.query}` : '';
+  const data = await fetch(`${urls.hostUrl}/posts${hasQuery}`, {
     method: 'GET',
     credentials: 'include',
-    body: JSON.stringify(req),
   })
     .then((res) => res.json())
     .catch((err) => {

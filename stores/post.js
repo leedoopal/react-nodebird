@@ -32,11 +32,9 @@ export const loadMainPosts = selector({
   key: loadMainPostKey,
   set: ({ set }, newPosts) => {
     set(postState, ({ mainPosts }) => {
-      if (mainPosts.length) {
+      if (mainPosts.length > 0) {
         return {
-          mainPosts: mainPosts.filter(
-            (v) => !newPosts.find(({ id }) => v.id === id),
-          ),
+          mainPosts: [...mainPosts, ...newPosts],
         };
       }
       return { mainPosts: newPosts };
