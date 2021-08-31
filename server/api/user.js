@@ -4,7 +4,9 @@ export const loadUserAction = async (req) => {
   const data = await fetch(`${urls.hostUrl}/user`, {
     method: 'GET',
     credentials: 'include',
-    body: JSON.stringify(req),
+    headers: {
+      Cookie: req.cookie,
+    },
   })
     .then((res) => res.json())
     .catch((err) => console.log(err));

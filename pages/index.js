@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import PropTypes from 'prop-types';
 
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/post/PostForm';
@@ -10,19 +11,18 @@ import { currentMainPosts, loadMainPosts } from '../stores/post';
 import { loadUserAction } from '../server/api/user';
 import { loadPostsAction } from '../server/api/post';
 
-const Home = () => {
+const Home = ({ serverData }) => {
+  const { me, posts } = serverData;
+
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
   const mainPosts = useRecoilValue(currentMainPosts);
 
-  useEffect(async () => {
-    const data = await loadUserAction();
-    if (data?.id) {
-      setUserMe(data);
-
-      const postsData = await loadPostsAction();
-      setLoadMainPosts(postsData);
+  useEffect(() => {
+    if (me?.id) {
+      setUserMe(me);
+      setLoadMainPosts(posts);
     }
   }, []);
 
@@ -55,6 +55,26 @@ const Home = () => {
       ))}
     </AppLayout>
   );
+};
+
+export const getServerSideProps = async ({ req }) => {
+  const cookie = req ? req.headers.cookie : '';
+
+  const data = await loadUserAction({ cookie });
+  const serverData = {};
+
+  if (data?.id) {
+    serverData.me = data;
+    serverData.posts = await loadPostsAction();
+  }
+
+  return {
+    props: { serverData },
+  };
+};
+
+Home.propTypes = {
+  serverData: PropTypes.object.isRequired,
 };
 
 export default Home;
