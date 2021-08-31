@@ -70,7 +70,7 @@ const PostCard = ({ post }) => {
   }, [post.Comments]);
 
   useEffect(() => {
-    post.Likers.find((v) => {
+    post.Likers?.find((v) => {
       if (v.Like.PostId === post.id && v.Like.UserId === me.id) {
         setLiked(true);
       }
