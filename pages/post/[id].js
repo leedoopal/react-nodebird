@@ -24,7 +24,7 @@ const Post = ({ serverData }) => {
     }
   }, []);
 
-  if (!post.id) {
+  if (!post) {
     return null;
   }
 

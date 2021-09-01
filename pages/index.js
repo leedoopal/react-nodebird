@@ -12,7 +12,7 @@ import { loadUserAction } from '../server/api/user';
 import { loadPostsAction } from '../server/api/post';
 
 const Home = ({ serverData }) => {
-  const { me, posts } = serverData;
+  const { userInfo, posts } = serverData;
 
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
@@ -20,8 +20,8 @@ const Home = ({ serverData }) => {
   const mainPosts = useRecoilValue(currentMainPosts);
 
   useEffect(() => {
-    if (me?.id) {
-      setUserMe(me);
+    if (userInfo?.id) {
+      setUserMe(userInfo);
       setLoadMainPosts(posts);
     }
   }, []);
@@ -64,7 +64,7 @@ export const getServerSideProps = async ({ req }) => {
   const serverData = {};
 
   if (data?.id) {
-    serverData.me = data;
+    serverData.userInfo = data;
     serverData.posts = await loadPostsAction();
   }
 

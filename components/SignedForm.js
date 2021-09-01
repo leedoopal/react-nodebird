@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import useInput from '../hooks/useInput';
 import { userIsSignedIn, userMe } from '../stores/user';
 import { signInAction } from '../server/api/user';
+import { currentMainPosts, loadMainPosts } from '../stores/post';
+import { loadPostsAction } from '../server/api/post';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -21,12 +23,19 @@ const SignedForm = () => {
   const [password, onChangePassword] = useInput('');
   const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
+  const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+  const mainPosts = useRecoilValue(currentMainPosts);
 
   const onSubmitForm = useCallback(async () => {
     const data = await signInAction({ email, password });
 
     if (data && data.email) {
       await setUserMe(data);
+
+      if (!mainPosts.length) {
+        const posts = await loadPostsAction();
+        setLoadMainPosts(posts);
+      }
     } else {
       alert('비밀번호가 일치하지 않아요');
     }
