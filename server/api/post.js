@@ -1,8 +1,7 @@
 import urls from '../../config/urls';
 
 export const loadPostsAction = async (req) => {
-  const hasQuery = req?.query ? `?lastId=${req.query}` : '';
-  const data = await fetch(`${urls.hostUrl}/posts${hasQuery}`, {
+  const data = await fetch(`${urls.hostUrl}/posts?lastId=${req?.lastId || 0}`, {
     method: 'GET',
     credentials: 'include',
   })
@@ -110,6 +109,38 @@ export const retweetAction = async (req) => {
     method: 'POST',
     credentials: 'include',
   })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
+export const loadUserPostsAction = async (req) => {
+  const data = await fetch(
+    `${urls.hostUrl}/user/${req.userId}/posts?lastId=${req.lastId || 0}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+    },
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('user api error message: ', err);
+    });
+
+  return data;
+};
+
+export const loadHashtagPostsAction = async (req) => {
+  const data = await fetch(
+    `${urls.hostUrl}/hashtag/${req.data}?lastId=${req.lastId || 0}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+    },
+  )
     .then((res) => res.json())
     .catch((err) => {
       console.log('user api error message: ', err);
