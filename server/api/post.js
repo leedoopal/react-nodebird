@@ -135,7 +135,9 @@ export const loadUserPostsAction = async (req) => {
 
 export const loadHashtagPostsAction = async (req) => {
   const data = await fetch(
-    `${urls.hostUrl}/hashtag/${req.data}?lastId=${req.lastId || 0}`,
+    `${urls.hostUrl}/hashtag/${encodeURIComponent(req.tag)}?lastId=${
+      req.lastId || 0
+    }`,
     {
       method: 'GET',
       credentials: 'include',
