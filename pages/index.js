@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import PropTypes from 'prop-types';
 
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/post/PostForm';
 import PostCard from '../components/post/PostCard';
 
-import { userIsSignedIn, userMe } from '../stores/user';
+import { userMe } from '../stores/user';
 import { currentMainPosts, loadMainPosts } from '../stores/post';
 import { loadUserAction } from '../server/api/user';
 import { loadPostsAction } from '../server/api/post';
@@ -14,8 +14,7 @@ import { loadPostsAction } from '../server/api/post';
 const Home = ({ serverData }) => {
   const { userInfo, posts } = serverData;
 
-  const isSignedIn = useRecoilValue(userIsSignedIn);
-  const setUserMe = useSetRecoilState(userMe);
+  const [me, setUserMe] = useRecoilState(userMe);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
   const mainPosts = useRecoilValue(currentMainPosts);
 
@@ -49,7 +48,7 @@ const Home = ({ serverData }) => {
 
   return (
     <AppLayout>
-      {isSignedIn && <PostForm />}
+      {me?.id && <PostForm />}
       {mainPosts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

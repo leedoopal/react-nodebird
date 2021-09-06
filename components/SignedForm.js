@@ -6,7 +6,7 @@ import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
 
 import useInput from '../hooks/useInput';
-import { userIsSignedIn, userMe } from '../stores/user';
+import { userMe } from '../stores/user';
 import { signInAction } from '../server/api/user';
 import { currentMainPosts, loadMainPosts } from '../stores/post';
 import { loadPostsAction } from '../server/api/post';
@@ -21,7 +21,6 @@ const FormWrapper = styled(Form)`
 const SignedForm = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const isSignedIn = useRecoilValue(userIsSignedIn);
   const setUserMe = useSetRecoilState(userMe);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
   const mainPosts = useRecoilValue(currentMainPosts);
@@ -60,7 +59,7 @@ const SignedForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={isSignedIn}>
+        <Button type="primary" htmlType="submit">
           로그인
         </Button>
         <Link href="/signup">

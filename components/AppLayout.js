@@ -8,14 +8,14 @@ import styled from 'styled-components';
 
 import UserProfile from './UserProfile';
 import SignedForm from './SignedForm';
-import { userIsSignedIn } from '../stores/user';
+import { userMe } from '../stores/user';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
-  const isSignedIn = useRecoilValue(userIsSignedIn);
+  const me = useRecoilValue(userMe);
 
   return (
     <div>
@@ -41,7 +41,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isSignedIn ? <UserProfile /> : <SignedForm />}
+          {me?.id ? <UserProfile /> : <SignedForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

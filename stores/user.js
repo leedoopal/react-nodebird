@@ -21,8 +21,3 @@ export const userMe = selector({
   get: ({ get }) => get(userState).me,
   set: ({ set }, seq) => set(userState, { isSignedIn: true, me: seq }),
 });
-export const userFollowerListKey = 'user/followerList';
-export const userFollowerList = atom({
-  key: userFollowerListKey,
-  default: [],
-});

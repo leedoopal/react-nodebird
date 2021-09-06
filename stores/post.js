@@ -59,7 +59,6 @@ export const currentImagePath = selector({
   get: ({ get }) => get(postState).imagePaths,
   set: ({ set }, paths) => {
     set(postState, ({ mainPosts }) => {
-      console.log('store: ', paths);
       return {
         mainPosts,
         imagePaths: paths,

@@ -70,12 +70,14 @@ const PostCard = ({ post }) => {
   }, [post.Comments]);
 
   useEffect(() => {
-    post.Likers?.find((v) => {
-      if (v.Like.PostId === post.id && v.Like.UserId === me.id) {
-        setLiked(true);
-      }
-      return false;
-    });
+    if (me) {
+      post.Likers?.find((v) => {
+        if (v.Like.PostId === post.id && v.Like.UserId === me.id) {
+          setLiked(true);
+        }
+        return false;
+      });
+    }
   }, []);
 
   if (!me) {
@@ -176,7 +178,7 @@ const PostCard = ({ post }) => {
   );
 };
 
-PostCard.defaultProps = {
+PostCard.propTypes = {
   post: {
     mainPosts: PropTypes.shape({
       id: PropTypes.number,

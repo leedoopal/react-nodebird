@@ -9,7 +9,6 @@ import { currentMainPosts } from '../stores/post';
 const UserProfile = () => {
   const me = useRecoilValue(userMe);
   const setIsSignedIn = useSetRecoilState(userIsSignedIn);
-  const isSignedIn = useRecoilValue(userIsSignedIn);
   const mainPosts = useRecoilValue(currentMainPosts);
 
   const onSignOut = useCallback(async () => {
@@ -35,9 +34,7 @@ const UserProfile = () => {
         title={me.nickname}
         avatar={<Avatar>{me.nickname[0]}</Avatar>}
       />
-      <Button onClick={onSignOut} loading={!isSignedIn}>
-        로그아웃
-      </Button>
+      <Button onClick={onSignOut}>로그아웃</Button>
     </Card>
   );
 };

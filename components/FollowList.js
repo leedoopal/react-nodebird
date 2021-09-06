@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { followerDeleteAction, followUpdateAction } from '../server/api/user';
 import { userMe } from '../stores/user';
 
-const FollowList = ({ header, headerKey, data }) => {
+const FollowList = ({ header, headerKey, data, onClickMore }) => {
   const [me, setUserMe] = useRecoilState(userMe);
   const headerText = headerKey === 'following' ? '언팔로잉' : '언팔로우';
 
@@ -37,7 +37,9 @@ const FollowList = ({ header, headerKey, data }) => {
             </button>
           </div>
         ))}
-      <button type="button">더보기</button>
+      <button type="button" onClick={onClickMore}>
+        더보기
+      </button>
     </div>
   );
 };
@@ -46,6 +48,7 @@ FollowList.propTypes = {
   header: PropTypes.string.isRequired,
   headerKey: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
+  onClickMore: PropTypes.func.isRequired,
 };
 
 export default FollowList;

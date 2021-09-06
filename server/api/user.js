@@ -5,7 +5,7 @@ export const loadUserAction = async (req) => {
     method: 'GET',
     credentials: 'include',
     headers: {
-      Cookie: req.cookie,
+      Cookie: req?.cookie,
     },
   })
     .then((res) => res.json())
@@ -102,14 +102,17 @@ export const followerDeleteAction = async (req) => {
   return data;
 };
 
-export const getFollowersAction = async () => {
-  const data = await fetch(`${urls.hostUrl}/user/followers`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
+export const getFollowersAction = async (req) => {
+  const data = await fetch(
+    `${urls.hostUrl}/user/followers?limit=${req.limit}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     },
-    credentials: 'include',
-  })
+  )
     .then((res) => res.json())
     .catch((err) => {
       console.log('user api error message: ', err);
@@ -118,14 +121,17 @@ export const getFollowersAction = async () => {
   return data;
 };
 
-export const getFollowingsAction = async () => {
-  const data = await fetch(`${urls.hostUrl}/user/followings`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
+export const getFollowingsAction = async (req) => {
+  const data = await fetch(
+    `${urls.hostUrl}/user/followings?limit=${req.limit}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     },
-    credentials: 'include',
-  })
+  )
     .then((res) => res.json())
     .catch((err) => {
       console.log('user api error message: ', err);
