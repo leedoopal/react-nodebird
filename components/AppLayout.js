@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
@@ -9,6 +10,7 @@ import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import SignedForm from './SignedForm';
 import { userMe } from '../stores/user';
+import useInput from '../hooks/useInput';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
@@ -16,6 +18,11 @@ const SearchInput = styled(Input.Search)`
 
 const AppLayout = ({ children }) => {
   const me = useRecoilValue(userMe);
+  const [searchInput, onChangeSearchInput] = useInput('');
+
+  const onSearch = useCallback(() => {
+    Router.push(`/hashtag/${searchInput}`);
+  }, [searchInput]);
 
   return (
     <div>
@@ -31,7 +38,12 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="search">
-          <SearchInput enterButton />
+          <SearchInput
+            enterButton
+            value={searchInput}
+            onChange={onChangeSearchInput}
+            onSearch={onSearch}
+          />
         </Menu.Item>
         <Menu.Item key="signup">
           <Link href="/signup">

@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 
 import AppLayout from '../../components/AppLayout';
 import PostCard from '../../components/post/PostCard';
-import { currentMainPosts, loadMainPosts } from '../../stores/post';
+import {
+  currentMainPosts,
+  initMainPosts,
+  loadMainPosts,
+} from '../../stores/post';
 import { userMe } from '../../stores/user';
 import {
   loadHashtagPostsAction,
@@ -18,18 +22,20 @@ const Hashtag = ({ serverData }) => {
   const { userInfo, posts } = serverData;
 
   const router = useRouter();
-  const { tag } = router.query;
+  const { id } = router.query;
 
   const [me, setUserMe] = useRecoilState(userMe);
   const mainPosts = useRecoilValue(currentMainPosts);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+  const setInitMainPosts = useSetRecoilState(initMainPosts);
 
   useEffect(() => {
     if (userInfo?.id) {
       setUserMe(userInfo);
+      setInitMainPosts([]);
       setLoadMainPosts(posts);
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     async function onScroll() {
@@ -40,7 +46,7 @@ const Hashtag = ({ serverData }) => {
         const lastId = mainPosts[mainPosts.length - 1]?.id;
         // 50개까지만 로드
         if (mainPosts.length < 50) {
-          const postsData = await loadUserPostsAction({ lastId, tag });
+          const postsData = await loadUserPostsAction({ lastId, id });
           setLoadMainPosts(postsData);
         }
       }
@@ -50,7 +56,7 @@ const Hashtag = ({ serverData }) => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [mainPosts, tag]);
+  }, [mainPosts, id]);
 
   return (
     <AppLayout>
@@ -72,7 +78,7 @@ const Hashtag = ({ serverData }) => {
           />
           <meta
             property="og:url"
-            content={`https://nodebird.com/hashtag/${tag}`}
+            content={`https://nodebird.com/hashtag/${id}`}
           />
         </Head>
       )}

@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 
 import AppLayout from '../../components/AppLayout';
 import PostCard from '../../components/post/PostCard';
-import { currentMainPosts, loadMainPosts } from '../../stores/post';
+import {
+  currentMainPosts,
+  loadMainPosts,
+  initMainPosts,
+} from '../../stores/post';
 import { userMe } from '../../stores/user';
 import { loadUserPostsAction } from '../../server/api/post';
 import { loadUserAction } from '../../server/api/user';
@@ -20,13 +24,15 @@ const User = ({ serverData }) => {
   const [me, setUserMe] = useRecoilState(userMe);
   const mainPosts = useRecoilValue(currentMainPosts);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+  const setInitMainPosts = useSetRecoilState(initMainPosts);
 
   useEffect(() => {
     if (userInfo?.id) {
       setUserMe(userInfo);
+      setInitMainPosts([]);
       setLoadMainPosts(posts);
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     async function onScroll() {

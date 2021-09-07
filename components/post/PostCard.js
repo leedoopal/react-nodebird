@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Link from 'next/link';
 
 import { Card, Popover, Button, Avatar, List } from 'antd';
 import {
@@ -87,10 +88,18 @@ const PostCard = ({ post }) => {
   const CardMetaComponent = (type) => {
     const cardContentData =
       type === 'retweet' ? post.Retweet.content : post.content;
+    const cardAvatarId =
+      type === 'retweet' ? post.Retweet.User.id : post.User.id;
 
     return (
       <Card.Meta
-        avatar={<Avatar>{post.User?.nickname[0]}</Avatar>}
+        avatar={
+          <Link href={`/user/${cardAvatarId}`}>
+            <a>
+              <Avatar>{post.User?.nickname[0]}</Avatar>
+            </a>
+          </Link>
+        }
         title={post.User?.nickname}
         description={
           typeof post.content === 'string' && (

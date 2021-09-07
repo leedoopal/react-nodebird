@@ -7,7 +7,7 @@ import PostForm from '../components/post/PostForm';
 import PostCard from '../components/post/PostCard';
 
 import { userMe } from '../stores/user';
-import { currentMainPosts, loadMainPosts } from '../stores/post';
+import { currentMainPosts, initMainPosts, loadMainPosts } from '../stores/post';
 import { loadUserAction } from '../server/api/user';
 import { loadPostsAction } from '../server/api/post';
 
@@ -16,11 +16,13 @@ const Home = ({ serverData }) => {
 
   const [me, setUserMe] = useRecoilState(userMe);
   const setLoadMainPosts = useSetRecoilState(loadMainPosts);
+  const setInitMainPosts = useSetRecoilState(initMainPosts);
   const mainPosts = useRecoilValue(currentMainPosts);
 
   useEffect(() => {
     if (userInfo?.id) {
       setUserMe(userInfo);
+      setInitMainPosts([]);
       setLoadMainPosts(posts);
     }
   }, []);

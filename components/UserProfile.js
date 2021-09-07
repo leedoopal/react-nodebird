@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Link from 'next/link';
 
 import { Avatar, Card, Button } from 'antd';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+
 import { userMe, userIsSignedIn } from '../stores/user';
 import { signOutAction } from '../server/api/user';
 import { currentMainPosts } from '../stores/post';
@@ -20,13 +22,25 @@ const UserProfile = () => {
     <Card
       actions={[
         <div key="twit">
-          짹짹 <br /> {mainPosts.length}
+          <Link href={`/user/${me.id}`}>
+            <a>
+              짹짹 <br /> {mainPosts.length}
+            </a>
+          </Link>
         </div>,
         <div key="followings">
-          팔로잉 <br /> {(me.Followings && me.Followings.length) || 0}
+          <Link href="/profile">
+            <a>
+              팔로잉 <br /> {(me.Followings && me.Followings.length) || 0}
+            </a>
+          </Link>
         </div>,
         <div key="followings">
-          팔로워 <br /> {(me.Followers && me.Followers.length) || 0}
+          <Link href="/profile">
+            <a>
+              팔로워 <br /> {(me.Followers && me.Followers.length) || 0}
+            </a>
+          </Link>
         </div>,
       ]}
     >

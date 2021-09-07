@@ -53,16 +53,21 @@ export const updateMainPost = selector({
     }));
   },
 });
+export const initMainPostKey = 'post/initMainPost';
+export const initMainPosts = selector({
+  key: initMainPostKey,
+  set: ({ set }) => {
+    set(postState, () => ({ mainPosts: [] }));
+  },
+});
 export const currentImagePathKey = 'post/currentImagePath';
 export const currentImagePath = selector({
   key: currentImagePathKey,
   get: ({ get }) => get(postState).imagePaths,
   set: ({ set }, paths) => {
-    set(postState, ({ mainPosts }) => {
-      return {
-        mainPosts,
-        imagePaths: paths,
-      };
-    });
+    set(postState, ({ mainPosts }) => ({
+      mainPosts,
+      imagePaths: paths,
+    }));
   },
 });
